@@ -1,4 +1,4 @@
-# spring-base
+# donggo-dlock-be
 
 ## 기본 설정
 
@@ -21,11 +21,3 @@ annotationProcessor("org.springframework.boot:spring-boot-configuration-processo
 annotationProcessor("org.projectlombok:lombok")
 ```
 
----
-
-## PROJECT
-[project-concept.md](document%2Fproject-concept.md)
-
----
-## Log
-[log.md](document%2Flog.md)
