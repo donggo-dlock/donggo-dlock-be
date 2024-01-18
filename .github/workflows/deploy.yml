@@ -1,0 +1,85 @@
+name: tip-tap-backend
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch: # 수동 실행
+
+env:
+  S3_BUCKET_NAME: donggo-dlock-bucket
+  PROJECT_NAME: deploy
+  APPLICATION_NAME: donggo-dlock-deploy
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest # OS환경
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3 # 코드 check out
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17' # 자바 설치
+          distribution: 'temurin'
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x ./gradlew
+        shell: bash # 권한 부여
+
+      # create application-secret.yml
+      #      - name: make application-secret.yml
+      #        run: echo ${{ secrets.SECRET_YML }} | base64 --decode > ./src/main/resources/application-secret.yml
+      #        shell: bash
+
+      # create application-prod.yml
+      #      - name: make application-prod.yml
+      #        run: echo ${{ secrets.PROD_YML }}  | base64 --decode > ./src/main/resources/application-prod.yml
+      #        shell: bash
+
+      - name: Gradle Caching
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Build with Gradle
+        run: ./gradlew clean build -x test
+        shell: bash # (7).build 시작
+
+      # get current time
+      - name: Get current time
+        uses: 1466587594/get-current-time@v2
+        id: current-time
+        with:
+          format: YY-MM-DD-HH-mm-ss
+          utcOffset: "+09:00" # (8).build 시점의 시간확보
+
+      - name: Show Current Time
+        run: echo "CurrentTime=${{ steps.current-time.outputs.time }}"
+        shell: bash # (9).확보한 시간 보여주기
+
+      - name: Make zip file
+        run: zip -r ./$GITHUB_SHA.zip .
+        shell: bash
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2
+
+      - name: Upload to S3
+        run: aws s3 cp --region ap-northeast-2 ./$GITHUB_SHA.zip s3://$S3_BUCKET_NAME/$PROJECT_NAME/$GITHUB_SHA.zip
+
+      - name: Code Deploy
+        run: aws deploy create-deployment --application-name $APPLICATION_NAME --deployment-config-name CodeDeployDefault.AllAtOnce --deployment-group-name dev --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=$PROJECT_NAME/$GITHUB_SHA.zip
