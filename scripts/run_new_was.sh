@@ -32,10 +32,6 @@ TARGET_PID=$(lsof -Fp -i TCP:${TARGET_PORT} | grep -Po 'p[0-9]+' | grep -Po '[0-
   sudo kill "${TARGET_PID}"
 #fi
 cp nohup.out nohup.out."$(date +%Y%m%d%H%M%S)" && > nohup.out
-<<<<<<< HEAD
 nohup java -jar $JAR_PATH -Dserver.port=${TARGET_PORT} -Duser.timezone=Asia/Seoul > /home/ubuntu/nohup.out 2>&1 &
-=======
-nohup java -jar -Dserver.port=${TARGET_PORT} -Dspring.profiles.active=prod -Duser.timezone=Asia/Seoul /home/ec2-user/tiptap/build/libs/* > /home/ec2-user/nohup.out 2>&1 &
->>>>>>> 8dd2b25f1e6bf6301dd0938d2480f9ac051d74fc
 echo "> Now new WAS runs at ${TARGET_PORT}."
 exit 0
