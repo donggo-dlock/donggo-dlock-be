@@ -4,7 +4,7 @@ version: 0.0
 os: linux
 files:
   - source: /
-    destination: /home/ec2-user/dlock-be/ # 프로젝트 이름
+    destination: /home/ubuntu/dlock-be/ # 프로젝트 이름
     overwrite: yes
 
 permissions:

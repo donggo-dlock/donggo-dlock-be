@@ -3,6 +3,10 @@
 #CURRENT_PORT=$(cat /home/ec2-user/service_url.inc | grep -Po '[0-9]+' | tail -1)
 #TARGET_PORT=0
 
+REPOSITORY=/home/ubuntu/dlock-be
+
+cd $REPOSITORY
+
 CURRENT_PORT=8080
 TARGET_PORT=8080
 
@@ -22,7 +26,7 @@ TARGET_PID=$(lsof -Fp -i TCP:${TARGET_PORT} | grep -Po 'p[0-9]+' | grep -Po '[0-
   echo "> Kill WAS running at ${TARGET_PORT}."
   sudo kill "${TARGET_PID}"
 #fi
-cp nohup.out nohup.out."$(date +%Y%m%d%H%M%S)" && > nohup.out
-nohup java -jar -Dserver.port=${TARGET_PORT} -Dspring.profiles.active=prod -Duser.timezone=Asia/Seoul /home/ec2-user/tiptap/build/libs/* > /home/ec2-user/nohup.out 2>&1 &
+cp /home/ubuntu/nohup.out /home/ubuntu/nohup.out."$(date +%Y%m%d%H%M%S)" && > nohup.out
+nohup java -jar /home/ubuntu/dlock-be/build/libs/* -Dserver.port=${TARGET_PORT} -Duser.timezone=Asia/Seoul > /home/ubuntu/nohup.out 2>&1 &
 echo "> Now new WAS runs at ${TARGET_PORT}."
 exit 0
