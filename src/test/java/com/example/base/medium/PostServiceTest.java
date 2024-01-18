@@ -7,6 +7,8 @@ import com.example.base.web.dto.PageResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Profile;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlGroup;
 
@@ -17,6 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
         @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = "/sql/post-service-test-data.sql"),
         @Sql(executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD, scripts = "/sql/delete-all-data.sql")
 })
+@ActiveProfiles("local")
 class PostServiceTest {
     @Autowired
     private PostServiceImpl postServiceImpl;
