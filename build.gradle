@@ -27,6 +27,7 @@ dependencies {
 
     //database
     runtimeOnly 'com.mysql:mysql-connector-j'
+    runtimeOnly 'org.mariadb.jdbc:mariadb-java-client:2.4.4'
 
     //jpa
     implementation 'org.hibernate:hibernate-spatial:6.2.7.Final'
