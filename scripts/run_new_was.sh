@@ -7,11 +7,6 @@ REPOSITORY=/home/ubuntu/dlock-be
 
 cd $REPOSITORY
 
-JAR_NAME=$(ls $REPOSITORY/ | grep 'SNAPSHOT.jar' | tail -n 1)
-echo "> JAR Name: $JAR_NAME"
-JAR_PATH=$REPOSITORY/$JAR_NAME
-echo "> JAR Path: $JAR_PATH"
-
 CURRENT_PORT=8080
 TARGET_PORT=8080
 
@@ -31,7 +26,7 @@ TARGET_PID=$(lsof -Fp -i TCP:${TARGET_PORT} | grep -Po 'p[0-9]+' | grep -Po '[0-
   echo "> Kill WAS running at ${TARGET_PORT}."
   sudo kill "${TARGET_PID}"
 #fi
-cp nohup.out nohup.out."$(date +%Y%m%d%H%M%S)" && > nohup.out
-nohup java -jar $JAR_PATH -Dserver.port=${TARGET_PORT} -Duser.timezone=Asia/Seoul > /home/ubuntu/nohup.out 2>&1 &
+cp /home/ubuntu/nohup.out /home/ubuntu/nohup.out."$(date +%Y%m%d%H%M%S)" && > nohup.out
+nohup java -jar /home/ubuntu/dlock-be/libs/* -Dserver.port=${TARGET_PORT} -Duser.timezone=Asia/Seoul > /home/ubuntu/nohup.out 2>&1 &
 echo "> Now new WAS runs at ${TARGET_PORT}."
 exit 0
