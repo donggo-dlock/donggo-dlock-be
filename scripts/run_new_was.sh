@@ -27,6 +27,6 @@ TARGET_PID=$(lsof -Fp -i TCP:${TARGET_PORT} | grep -Po 'p[0-9]+' | grep -Po '[0-
   sudo kill "${TARGET_PID}"
 #fi
 cp /home/ubuntu/nohup.out /home/ubuntu/nohup.out."$(date +%Y%m%d%H%M%S)" && > nohup.out
-nohup java -jar /home/ubuntu/dlock-be/libs/* -Dserver.port=${TARGET_PORT} -Duser.timezone=Asia/Seoul > /home/ubuntu/nohup.out 2>&1 &
+nohup java -jar /home/ubuntu/dlock-be/build/libs/* -Dserver.port=${TARGET_PORT} -Duser.timezone=Asia/Seoul > /home/ubuntu/nohup.out 2>&1 &
 echo "> Now new WAS runs at ${TARGET_PORT}."
 exit 0
