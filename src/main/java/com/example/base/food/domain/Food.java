@@ -1,20 +1,12 @@
 package com.example.base.food.domain;
 
-import lombok.Builder;
+import com.example.base.commentable.domain.Commentable;
+import lombok.Getter;
+import lombok.Setter;
 
-@Builder
-public record Food(
-        Long id,
-        String name,
-        String userInformation,
-        String password,
-        int daysBeforeTest,
-        String mainIngredient,
-        String content,
-        int views,
-        int likes,
-        int dislikes,
-        FoodStatus status,
-        Long createdAt
-) {
+@Setter
+@Getter
+public class Food extends Commentable {
+    private int daysBeforeTest;
+    private String mainIngredient;
 }

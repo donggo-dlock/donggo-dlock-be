@@ -1,6 +1,7 @@
 package com.example.base.food.infrastructure;
 
 import com.example.base.food.domain.Food;
+import com.example.base.reportable.domain.ActiveStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,6 +28,10 @@ public class FoodEntity {
     @Column(name = "content", columnDefinition = "varchar(255)")
     private String content;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private ActiveStatus status;
+
     @Column(name = "daysBeforeTest")
     private int daysBeforeTest;
 
@@ -47,35 +52,34 @@ public class FoodEntity {
 
     public static FoodEntity from(Food food) {
         FoodEntity foodEntity = new FoodEntity();
-        foodEntity.id = food.id();
-        foodEntity.name = food.name();
-        foodEntity.userInformation = food.userInformation();
-        foodEntity.password = food.password();
-        foodEntity.content = food.content();
-        foodEntity.daysBeforeTest = food.daysBeforeTest();
-        foodEntity.mainIngredient = food.mainIngredient();
-        foodEntity.views = food.views();
-        foodEntity.likes = food.likes();
-        foodEntity.dislikes = food.dislikes();
-        foodEntity.createdAt = food.createdAt();
-
+        foodEntity.setId(food.getId());
+        foodEntity.setName(food.getName());
+        foodEntity.setUserInformation(food.getUserInformation());
+        foodEntity.setPassword(food.getPassword());
+        foodEntity.setContent(food.getContent());
+        foodEntity.setDaysBeforeTest(food.getDaysBeforeTest());
+        foodEntity.setMainIngredient(food.getMainIngredient());
+        foodEntity.setViews(food.getViews());
+        foodEntity.setLikes(food.getLikes());
+        foodEntity.setDislikes(food.getDislikes());
+        foodEntity.setCreatedAt(food.getCreatedAt());
         return foodEntity;
     }
 
     public Food toModel() {
-        return Food.builder()
-                .id(id)
-                .name(name)
-                .userInformation(userInformation)
-                .password(password)
-                .content(content)
-                .daysBeforeTest(daysBeforeTest)
-                .mainIngredient(mainIngredient)
-                .views(views)
-                .likes(likes)
-                .dislikes(dislikes)
-                .createdAt(createdAt)
-                .build();
+        Food food = new Food();
+        food.setId(id);
+        food.setName(name);
+        food.setUserInformation(userInformation);
+        food.setPassword(password);
+        food.setContent(content);
+        food.setDaysBeforeTest(daysBeforeTest);
+        food.setMainIngredient(mainIngredient);
+        food.setViews(views);
+        food.setLikes(likes);
+        food.setDislikes(dislikes);
+        food.setCreatedAt(createdAt);
+        return food;
     }
 
 }
