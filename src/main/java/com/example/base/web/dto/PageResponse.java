@@ -1,6 +1,5 @@
 package com.example.base.web.dto;
 
-import com.example.base.post.controller.response.PostResponse;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,10 +29,10 @@ public class PageResponse<T> {
         return new PageResponse<>(content, pageCreate, total);
     }
 
-    public PageResponse<PostResponse> updateType(List<T> content) {
+    public PageResponse<T> updateType(List<T> content) {
         this.content.clear();
         this.content.addAll(content);
-        return (PageResponse<PostResponse>) this;
+        return (PageResponse<T>) this;
     }
 
     public int getTotalPages() {

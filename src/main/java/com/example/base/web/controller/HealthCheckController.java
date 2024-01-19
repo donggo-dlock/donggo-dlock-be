@@ -12,14 +12,4 @@ public class HealthCheckController {
     public void healthCheck() {
         //do nothing
     }
-
-    @GetMapping("/success")
-    public String healthCheckSuccess() {
-        return "OK";
-    }
-
-    @GetMapping("/exception")
-    public void healthCheckException() throws IllegalArgumentException{
-        throw new IllegalArgumentException("잘못된 요청입니다. 요청내용을 확인하세요.");
-    }
 }
