@@ -15,22 +15,22 @@ public class FoodEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name")
+    @Column(name = "name", columnDefinition = "varchar(50)")
     private String name;
 
-    @Column(name = "userInformation")
+    @Column(name = "userInformation", columnDefinition = "varchar(50)")
     private String userInformation;
 
     @Column(name = "password", columnDefinition = "varchar(4)")
     private String password;
 
-    @Column(name = "content")
+    @Column(name = "content", columnDefinition = "varchar(255)")
     private String content;
 
     @Column(name = "daysBeforeTest")
     private int daysBeforeTest;
 
-    @Column(name = "mainIngredient")
+    @Column(name = "mainIngredient", columnDefinition = "varchar(50)")
     private String mainIngredient;
 
     @Column(name = "views")
