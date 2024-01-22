@@ -2,7 +2,7 @@ spring:
   config:
     activate:
       on-profile: prod
-    import: application-secret.yml
+    import: application-swagger.yml
     
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
