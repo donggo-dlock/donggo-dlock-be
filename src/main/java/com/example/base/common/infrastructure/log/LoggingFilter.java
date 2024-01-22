@@ -27,7 +27,7 @@ public class LoggingFilter extends OncePerRequestFilter {
         try {
             filterChain.doFilter(wrappedRequest, wrappedResponse);
 
-            if (!isHealthCheckRequest(wrappedRequest)) {
+            if (!isSwaggerRequest(wrappedRequest)) {
                 logRequest(wrappedRequest);
                 logResponse(wrappedResponse);
             }
@@ -79,7 +79,9 @@ public class LoggingFilter extends OncePerRequestFilter {
     }
 
 
-    private boolean isHealthCheckRequest(HttpServletRequest request) {
-        return "/health-check".equals(request.getRequestURI()) && "GET".equalsIgnoreCase(request.getMethod());
+    private boolean isSwaggerRequest(HttpServletRequest request) {
+        String uri = request.getRequestURI();
+        return (uri.startsWith("/swagger") || uri.startsWith("/api-docs/")) && "GET".equalsIgnoreCase(request.getMethod());
     }
+
 }
