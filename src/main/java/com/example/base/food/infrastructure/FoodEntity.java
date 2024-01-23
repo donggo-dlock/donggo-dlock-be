@@ -63,6 +63,7 @@ public class FoodEntity {
         foodEntity.setLikes(food.getLikes());
         foodEntity.setDislikes(food.getDislikes());
         foodEntity.setCreatedAt(food.getCreatedAt());
+        foodEntity.setStatus(food.getStatus());
         return foodEntity;
     }
 
@@ -79,6 +80,7 @@ public class FoodEntity {
         food.setLikes(likes);
         food.setDislikes(dislikes);
         food.setCreatedAt(createdAt);
+        food.setStatus(status);
         return food;
     }
 
