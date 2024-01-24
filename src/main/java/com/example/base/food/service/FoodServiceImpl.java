@@ -1,8 +1,8 @@
 package com.example.base.food.service;
 
 
-import com.example.base.common.exception.PasswordNotMatchException;
 import com.example.base.common.service.port.ClockHolder;
+import com.example.base.common.service.port.PasswordHolder;
 import com.example.base.food.controller.port.FoodService;
 import com.example.base.food.controller.request.FoodCreateRequest;
 import com.example.base.food.controller.response.FoodInfoResponse;
@@ -30,10 +30,11 @@ public class FoodServiceImpl implements FoodService {
 
     private final FoodRepository foodRepository;
     private final ClockHolder clockHolder;
+    private final PasswordHolder passwordHolder;
 
     @Override
     public void create(FoodCreateRequest foodCreateRequest, String userInformation) {
-        foodRepository.save(Food.from(FoodCreate.from(foodCreateRequest, userInformation), clockHolder));
+        foodRepository.save(Food.from(FoodCreate.from(foodCreateRequest, userInformation), clockHolder, passwordHolder));
     }
 
     @Override
@@ -58,9 +59,7 @@ public class FoodServiceImpl implements FoodService {
     @Override
     public void delete(FoodDelete foodDelete, Long id) {
         Food food = foodRepository.get(id);
-        if (!food.getPassword().equals(foodDelete.password())) {
-            throw new PasswordNotMatchException();
-        }
+        passwordHolder.match(foodDelete.password(), food.getPassword());
         foodRepository.delete(food);
     }
 }

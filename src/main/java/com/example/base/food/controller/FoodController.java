@@ -4,6 +4,7 @@ import com.example.base.food.controller.port.FoodService;
 import com.example.base.food.controller.request.FoodCreateRequest;
 import com.example.base.food.controller.response.FoodInfoResponse;
 import com.example.base.food.controller.response.FoodResponse;
+import com.example.base.food.domain.dto.FoodDelete;
 import com.example.base.food.domain.dto.FoodSearch;
 import com.example.base.reportable.utils.IpAddressUtils;
 import com.example.base.web.annotation.IpAddress;
@@ -40,5 +41,10 @@ public class FoodController {
     @GetMapping("/list")
     public PageResponse<FoodResponse> getPagination(@Valid @ParameterObject FoodSearch foodSearch, @ParameterObject PageCreate pageCreate) {
         return foodService.getPagination(pageCreate, foodSearch);
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id, @Valid @RequestBody FoodDelete foodDelete) {
+        foodService.delete(foodDelete, id);
     }
 }
