@@ -22,7 +22,7 @@ public class FoodEntity {
     @Column(name = "userInformation", columnDefinition = "varchar(50)")
     private String userInformation;
 
-    @Column(name = "password", columnDefinition = "varchar(4)")
+    @Column(name = "password", columnDefinition = "varchar(500)")
     private String password;
 
     @Column(name = "content", columnDefinition = "varchar(255)")
@@ -63,6 +63,7 @@ public class FoodEntity {
         foodEntity.setLikes(food.getLikes());
         foodEntity.setDislikes(food.getDislikes());
         foodEntity.setCreatedAt(food.getCreatedAt());
+        foodEntity.setStatus(food.getStatus());
         return foodEntity;
     }
 
@@ -79,6 +80,7 @@ public class FoodEntity {
         food.setLikes(likes);
         food.setDislikes(dislikes);
         food.setCreatedAt(createdAt);
+        food.setStatus(status);
         return food;
     }
 

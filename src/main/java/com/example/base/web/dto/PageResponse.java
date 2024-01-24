@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Getter
 @NoArgsConstructor
@@ -18,21 +17,11 @@ public class PageResponse<T> {
     private PageResponse(List<T> content, PageCreate pageCreate, long total) {
         this.content.addAll(content);
         this.pageCreate = pageCreate;
-        this.total = Optional.of(pageCreate)
-                .filter(it -> !content.isEmpty())
-                .filter(it -> pageCreate.getOffset() + it.getSize() > total)
-                .map(it -> pageCreate.getOffset() + content.size())
-                .orElse(total);
+        this.total = total;
     }
 
     public static <T> PageResponse<T> of(List<T> content, PageCreate pageCreate, long total) {
         return new PageResponse<>(content, pageCreate, total);
-    }
-
-    public PageResponse<T> updateType(List<T> content) {
-        this.content.clear();
-        this.content.addAll(content);
-        return (PageResponse<T>) this;
     }
 
     public int getTotalPages() {
