@@ -10,22 +10,25 @@ import com.example.base.web.annotation.IpAddress;
 import com.example.base.web.dto.PageCreate;
 import com.example.base.web.dto.PageResponse;
 import io.swagger.v3.oas.annotations.Parameter;
+import jakarta.validation.Valid;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @Builder
 @RestController
 @RequestMapping("/foods")
 @RequiredArgsConstructor
+@Validated
 public class FoodController {
 
     private final FoodService foodService;
     private final IpAddressUtils ipAddressUtils;
 
     @PostMapping
-    public void create(@RequestBody FoodCreateRequest foodCreateRequest,@Parameter(hidden = true) @IpAddress String ipAddress) {
+    public void create(@Valid @RequestBody FoodCreateRequest foodCreateRequest, @Parameter(hidden = true) @IpAddress String ipAddress) {
         foodService.create(foodCreateRequest, ipAddressUtils.from(ipAddress));
     }
 
@@ -35,7 +38,7 @@ public class FoodController {
     }
 
     @GetMapping("/list")
-    public PageResponse<FoodResponse> getPagination(@ModelAttribute @ParameterObject FoodSearch foodSearch, @ParameterObject PageCreate pageCreate) {
+    public PageResponse<FoodResponse> getPagination(@Valid @ParameterObject FoodSearch foodSearch, @ParameterObject PageCreate pageCreate) {
         return foodService.getPagination(pageCreate, foodSearch);
     }
 }
