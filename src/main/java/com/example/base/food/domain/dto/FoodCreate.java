@@ -1,11 +1,10 @@
 package com.example.base.food.domain.dto;
 
 
-import io.swagger.v3.oas.annotations.media.Schema;
+import com.example.base.food.controller.request.FoodCreateRequest;
 import lombok.Builder;
 
 @Builder
-@Schema(name = "FoodCreate", description = "Food create request")
 public record FoodCreate(
     String name,
     String userInformation,
@@ -14,4 +13,14 @@ public record FoodCreate(
     int daysBeforeTest,
     String mainIngredient
 ) {
+    public static FoodCreate from(FoodCreateRequest foodCreateRequest, String userInformation) {
+        return FoodCreate.builder()
+            .name(foodCreateRequest.name())
+            .userInformation(userInformation)
+            .password(foodCreateRequest.password())
+            .content(foodCreateRequest.content())
+            .daysBeforeTest(foodCreateRequest.daysBeforeTest())
+            .mainIngredient(foodCreateRequest.mainIngredient())
+            .build();
+    }
 }
