@@ -65,6 +65,7 @@ public class FakeFoodRepository implements FoodRepository {
         List<Food> filteredData = data.stream()
                 .filter(item -> item.getStatus().equals(ActiveStatus.ACTIVE))
                 .filter(item -> foodSearch.keyword().isEmpty()? true : item.getName().contains(foodSearch.keyword()))
+                .filter(item -> item.getDaysBeforeTest() == foodSearch.daysBeforeTest())
                 .sorted(Comparator.<Food>comparingInt(item -> "views".equals(foodSearch.sortBy()) ? item.getViews() : 0)
                         .thenComparingInt(item -> "likes".equals(foodSearch.sortBy()) ? item.getLikes() : 0)
                         .thenComparingLong(Food::getId)

@@ -163,14 +163,15 @@ class FoodServiceImplTest {
         FoodSearch foodSearch = FoodSearch.builder()
                 .keyword("")
                 .sortBy("VIEW")
+                .daysBeforeTest(1)
                 .build();
 
         //when
         PageResponse<FoodResponse> pageResponse = foodServiceImpl.getPagination(pageCreate, foodSearch);
 
         //when
-        assertThat(pageResponse.getTotal()).isEqualTo(1);
-        assertThat(pageResponse.getTotalPages()).isEqualTo(1);
+        assertThat(pageResponse.getTotal()).isZero();
+        assertThat(pageResponse.getTotalPages()).isZero();
         assertThat(pageResponse.hasNext()).isFalse();
         assertThat(pageResponse.hasPrevious()).isFalse();
     }
