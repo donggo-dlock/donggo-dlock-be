@@ -11,6 +11,7 @@ import com.example.base.food.domain.dto.FoodSearch;
 import com.example.base.food.service.FoodServiceImpl;
 import com.example.base.mock.FakeFoodRepository;
 import com.example.base.mock.TestClockHolder;
+import com.example.base.mock.TestPasswordHolder;
 import com.example.base.reportable.domain.ActiveStatus;
 import com.example.base.web.dto.PageCreate;
 import com.example.base.web.dto.PageResponse;
@@ -30,7 +31,8 @@ class FoodServiceImplTest {
     void init(){
         fakeFoodRepository = new FakeFoodRepository();
         TestClockHolder testClockHolder = new TestClockHolder(10000L);
-        foodServiceImpl = new FoodServiceImpl(fakeFoodRepository, testClockHolder);
+        TestPasswordHolder testPasswordHolder = new TestPasswordHolder();
+        foodServiceImpl = new FoodServiceImpl(fakeFoodRepository, testClockHolder, testPasswordHolder);
 
         Food food1 = new Food();
         food1.setId(1L);
