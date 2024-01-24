@@ -27,7 +27,7 @@ public class LoggingFilter extends OncePerRequestFilter {
         try {
             filterChain.doFilter(wrappedRequest, wrappedResponse);
 
-            if (!isSwaggerRequest(wrappedRequest)) {
+            if (!omitLoggingRequest(wrappedRequest)) {
                 logRequest(wrappedRequest);
                 logResponse(wrappedResponse);
             }
@@ -79,9 +79,9 @@ public class LoggingFilter extends OncePerRequestFilter {
     }
 
 
-    private boolean isSwaggerRequest(HttpServletRequest request) {
+    private boolean omitLoggingRequest(HttpServletRequest request) {
         String uri = request.getRequestURI();
-        return (uri.startsWith("/swagger") || uri.startsWith("/api-docs/")) && "GET".equalsIgnoreCase(request.getMethod());
+        return (uri.startsWith("/swagger") || uri.startsWith("/api-docs/") || uri.startsWith("/health-check")) && "GET".equalsIgnoreCase(request.getMethod());
     }
 
 }
