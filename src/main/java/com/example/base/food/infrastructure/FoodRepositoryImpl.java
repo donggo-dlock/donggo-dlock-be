@@ -11,7 +11,6 @@ import com.example.base.web.dto.PageResponse;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import jakarta.annotation.Resource;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -22,9 +21,6 @@ public class FoodRepositoryImpl extends BaseRepository<FoodEntity, Long> impleme
 
     QFoodEntity food = QFoodEntity.foodEntity;
 
-    @Resource
-    private FoodRepositoryImpl foodRepository;
-
     public static final String FOOD_MESSAGE = "food";
 
     public FoodRepositoryImpl(JPAQueryFactory queryFactory) {
@@ -33,7 +29,7 @@ public class FoodRepositoryImpl extends BaseRepository<FoodEntity, Long> impleme
 
     @Override
     public void save(Food food) {
-        foodRepository.save(FoodEntity.from(food));
+        save(FoodEntity.from(food));
     }
 
     @Override
@@ -63,25 +59,35 @@ public class FoodRepositoryImpl extends BaseRepository<FoodEntity, Long> impleme
         List<Food> foodList = getPaginationContent(
                 selectFrom(food)
                         .where(food.status.eq(ActiveStatus.ACTIVE),
-                                eqKeyword(foodSearch.keyword()))
+                                eqKeyword(foodSearch.keyword()),
+                                eqDaysBeforeTest(foodSearch.daysBeforeTest()))
                         .orderBy(getOrderSpecifierList(foodSearch.sortBy()))
                 , pageCreate).stream().map(FoodEntity::toModel).toList();
         Long totalCount = getTotalCount(
                 selectFrom(food)
                         .where(food.status.eq(ActiveStatus.ACTIVE),
-                                eqKeyword(foodSearch.keyword()))
+                                eqKeyword(foodSearch.keyword()),
+                                eqDaysBeforeTest(foodSearch.daysBeforeTest()))
         );
         return PageResponse.of(foodList, pageCreate, totalCount);
     }
 
     @Override
     public void delete(Food food) {
-        foodRepository.delete(FoodEntity.from(food));
+        delete(FoodEntity.from(food));
     }
 
 
     private BooleanExpression eqKeyword(final String keyword) {
         return keyword == null ? null : food.name.contains(keyword);
+    }
+
+    private BooleanExpression eqDaysBeforeTest(final int daysBeforeTest) {
+        if (daysBeforeTest > 0 && daysBeforeTest < 4)
+            return food.daysBeforeTest.eq(daysBeforeTest);
+        if (daysBeforeTest == 0)
+            return null;
+        throw new IllegalArgumentException("daysBeforeTest는 3일 이하로 설정할 수 있습니다.");
     }
 
     private OrderSpecifier<?> getOrderSpecifierList(final String sortBy) {
