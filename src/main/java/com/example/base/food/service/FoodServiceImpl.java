@@ -48,12 +48,12 @@ public class FoodServiceImpl implements FoodService {
 
     @Override
     public FoodInfoResponse get(String name) {
-        return FoodInfoResponse.from(foodRepository.get(name));
+        return FoodInfoResponse.from(foodRepository.get(name), clockHolder);
     }
 
     @Override
     public FoodInfoResponse get(Long id) {
-        return FoodInfoResponse.from(foodRepository.get(id));
+        return FoodInfoResponse.from(foodRepository.get(id), clockHolder);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.example.base.food.controller.response;
 
 
+import com.example.base.common.service.port.ClockHolder;
 import com.example.base.food.domain.Food;
 import com.example.base.reportable.domain.ActiveStatus;
 import lombok.Builder;
@@ -15,10 +16,10 @@ public record FoodInfoResponse(
     int views,
     int likes,
     int dislikes,
-    Long createdAt,
+    String createdAt,
     ActiveStatus status
 ) {
-    public static FoodInfoResponse from(Food food) {
+    public static FoodInfoResponse from(Food food, ClockHolder clockHolder) {
         return FoodInfoResponse.builder()
                 .id(food.getId())
                 .name(food.getName())
@@ -28,7 +29,7 @@ public record FoodInfoResponse(
                 .views(food.getViews())
                 .likes(food.getLikes())
                 .dislikes(food.getDislikes())
-                .createdAt(food.getCreatedAt())
+                .createdAt(clockHolder.dateTime(food.getCreatedAt()))
                 .status(food.getStatus())
                 .build();
     }
