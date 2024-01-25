@@ -25,6 +25,9 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     compileOnly 'org.projectlombok:lombok'
 
+    //cache
+    implementation 'com.github.ben-manes.caffeine:caffeine'
+
     //database
     runtimeOnly 'com.mysql:mysql-connector-j'
     runtimeOnly 'org.mariadb.jdbc:mariadb-java-client:2.4.4'
