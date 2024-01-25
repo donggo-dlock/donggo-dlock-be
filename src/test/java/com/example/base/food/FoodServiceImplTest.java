@@ -11,6 +11,7 @@ import com.example.base.food.domain.dto.FoodSearch;
 import com.example.base.food.service.FoodServiceImpl;
 import com.example.base.mock.FakeFoodRepository;
 import com.example.base.mock.TestClockHolder;
+import com.example.base.mock.TestFoodViewHolder;
 import com.example.base.mock.TestPasswordHolder;
 import com.example.base.reportable.domain.ActiveStatus;
 import com.example.base.web.dto.PageCreate;
@@ -32,7 +33,8 @@ class FoodServiceImplTest {
         fakeFoodRepository = new FakeFoodRepository();
         TestClockHolder testClockHolder = new TestClockHolder(10000L);
         TestPasswordHolder testPasswordHolder = new TestPasswordHolder();
-        foodServiceImpl = new FoodServiceImpl(fakeFoodRepository, testClockHolder, testPasswordHolder);
+        TestFoodViewHolder testFoodViewHolder = new TestFoodViewHolder();
+        foodServiceImpl = new FoodServiceImpl(fakeFoodRepository, testClockHolder, testPasswordHolder, testFoodViewHolder);
 
         Food food1 = new Food();
         food1.setId(1L);
@@ -90,7 +92,7 @@ class FoodServiceImplTest {
         assertThat(foodInfoResponse.views()).isZero();
         assertThat(foodInfoResponse.likes()).isZero();
         assertThat(foodInfoResponse.dislikes()).isZero();
-        assertThat(foodInfoResponse.createdAt()).isEqualTo(10000L);
+        assertThat(foodInfoResponse.createdAt()).isEqualTo("2024-01-23 00:00:00");
         assertThat(foodInfoResponse.id()).isPositive();
     }
 
@@ -140,7 +142,7 @@ class FoodServiceImplTest {
         assertThat(foodInfoResponse.views()).isZero();
         assertThat(foodInfoResponse.likes()).isZero();
         assertThat(foodInfoResponse.dislikes()).isZero();
-        assertThat(foodInfoResponse.createdAt()).isEqualTo(10000L);
+        assertThat(foodInfoResponse.createdAt()).isEqualTo("2024-01-23 00:00:00");
         assertThat(foodInfoResponse.id()).isEqualTo(1L);
     }
 

@@ -5,6 +5,10 @@ public class Constant {
     public static final String REQUEST_BODY_MESSAGE_FORMAT = "Request: {} uri=[{}] content-type=[{}] payload={}";
     public static final String RESPONSE_MESSAGE_FORMAT = "Response Payload: {}";
 
+    public static final String DATE_FORMAT = "yyyy-MM-dd";
+    public static final String DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
+    public static final String ZONE_ID = "Asia/Seoul";
+
     private Constant() {
         throw new UnsupportedOperationException("Cannot instantiate class Constant");
     }

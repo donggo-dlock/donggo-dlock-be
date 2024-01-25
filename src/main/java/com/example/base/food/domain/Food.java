@@ -29,4 +29,8 @@ public class Food extends Commentable {
         food.setViews(0);
         return food;
     }
+
+    public void updateViews(int views) {
+        this.setViews(this.getViews()+views);
+    }
 }
