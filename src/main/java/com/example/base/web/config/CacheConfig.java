@@ -9,8 +9,16 @@ import java.util.concurrent.TimeUnit;
 
 @Configuration
 public class CacheConfig {
-    @Bean
-    public Cache<String, Integer> viewCountCache() {
+    @Bean(name = "foodViewCountCache")
+    public Cache<Long, Integer> foodViewCountCache() {
+        return Caffeine.newBuilder()
+                .expireAfterWrite(5, TimeUnit.MINUTES)
+                .maximumSize(1000)
+                .build();
+    }
+
+    @Bean(name = "reviewViewCountCache")
+    public Cache<Long, Integer> reviewViewCountCache() {
         return Caffeine.newBuilder()
                 .expireAfterWrite(5, TimeUnit.MINUTES)
                 .maximumSize(1000)
