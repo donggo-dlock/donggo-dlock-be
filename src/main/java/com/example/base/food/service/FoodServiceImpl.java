@@ -3,6 +3,7 @@ package com.example.base.food.service;
 
 import com.example.base.common.service.port.ClockHolder;
 import com.example.base.common.service.port.PasswordHolder;
+import com.example.base.food.service.port.FoodViewHolder;
 import com.example.base.food.controller.port.FoodService;
 import com.example.base.food.controller.request.FoodCreateRequest;
 import com.example.base.food.controller.response.FoodInfoResponse;
@@ -31,6 +32,7 @@ public class FoodServiceImpl implements FoodService {
     private final FoodRepository foodRepository;
     private final ClockHolder clockHolder;
     private final PasswordHolder passwordHolder;
+    private final FoodViewHolder foodViewHolder;
 
     @Override
     public void create(FoodCreateRequest foodCreateRequest, String userInformation) {
@@ -53,7 +55,9 @@ public class FoodServiceImpl implements FoodService {
 
     @Override
     public FoodInfoResponse get(Long id) {
-        return FoodInfoResponse.from(foodRepository.get(id), clockHolder);
+        FoodInfoResponse foodInfoResponse =  FoodInfoResponse.from(foodRepository.get(id), clockHolder);
+        foodViewHolder.increase(foodInfoResponse.id());
+        return foodInfoResponse;
     }
 
     @Override
