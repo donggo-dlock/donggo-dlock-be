@@ -90,7 +90,7 @@ class FoodServiceImplTest {
         assertThat(foodInfoResponse.views()).isZero();
         assertThat(foodInfoResponse.likes()).isZero();
         assertThat(foodInfoResponse.dislikes()).isZero();
-        assertThat(foodInfoResponse.createdAt()).isEqualTo(10000L);
+        assertThat(foodInfoResponse.createdAt()).isEqualTo("2024-01-23 00:00:00");
         assertThat(foodInfoResponse.id()).isPositive();
     }
 
@@ -140,7 +140,7 @@ class FoodServiceImplTest {
         assertThat(foodInfoResponse.views()).isZero();
         assertThat(foodInfoResponse.likes()).isZero();
         assertThat(foodInfoResponse.dislikes()).isZero();
-        assertThat(foodInfoResponse.createdAt()).isEqualTo(10000L);
+        assertThat(foodInfoResponse.createdAt()).isEqualTo("2024-01-23 00:00:00");
         assertThat(foodInfoResponse.id()).isEqualTo(1L);
     }
 
