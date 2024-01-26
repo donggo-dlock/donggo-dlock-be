@@ -12,7 +12,7 @@ public record FoodInfoResponse(
     String name,
     String content,
     int daysBeforeTest,
-    String mainIngredient,
+    String[] mainIngredient,
     int views,
     int likes,
     int dislikes,
@@ -20,12 +20,14 @@ public record FoodInfoResponse(
     ActiveStatus status
 ) {
     public static FoodInfoResponse from(Food food, ClockHolder clockHolder) {
+        String[] mainIngredient = food.getMainIngredient().split("&");
+
         return FoodInfoResponse.builder()
                 .id(food.getId())
                 .name(food.getName())
                 .content(food.getContent())
                 .daysBeforeTest(food.getDaysBeforeTest())
-                .mainIngredient(food.getMainIngredient())
+                .mainIngredient(mainIngredient)
                 .views(food.getViews())
                 .likes(food.getLikes())
                 .dislikes(food.getDislikes())
