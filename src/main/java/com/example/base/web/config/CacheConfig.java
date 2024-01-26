@@ -26,18 +26,10 @@ public class CacheConfig {
     }
 
     @Bean
-    public Cache<String, Boolean> likeCache() {
+    public Cache<String, Boolean> recommedationCache() {
         return Caffeine.newBuilder()
                 .expireAfterWrite(1, TimeUnit.DAYS)
-                .maximumSize(1000)
-                .build();
-    }
-
-    @Bean
-    public Cache<String, Boolean> dislikeCache() {
-        return Caffeine.newBuilder()
-                .expireAfterWrite(1, TimeUnit.DAYS)
-                .maximumSize(1000)
+                .maximumSize(3000)
                 .build();
     }
 
