@@ -66,4 +66,11 @@ public class FoodServiceImpl implements FoodService {
         passwordHolder.match(foodDelete.password(), food.getPassword());
         foodRepository.delete(food);
     }
+
+    @Override
+    public void updateRecommendations(Long id, Boolean recommendationFlag) {
+        Food food = foodRepository.get(id);
+        food.updateRecommendations(recommendationFlag);
+        foodRepository.save(food);
+    }
 }
