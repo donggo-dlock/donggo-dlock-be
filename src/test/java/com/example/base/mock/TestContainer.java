@@ -7,6 +7,8 @@ import com.example.base.common.service.port.ClockHolder;
 import com.example.base.food.controller.port.FoodService;
 import com.example.base.food.service.FoodServiceImpl;
 import com.example.base.food.service.port.FoodRepository;
+import com.example.base.review.controller.port.ReviewService;
+import com.example.base.review.service.ReviewServiceImpl;
 import com.example.base.review.service.port.ReviewRepository;
 
 //Spring IOC 컨테이너 기능 구현
@@ -16,6 +18,7 @@ public class TestContainer {
     public final FoodService foodService;
     public final RecommendationService recommendationService;
     public final RecommendationHolder recommendationHolder;
+    public final ReviewService reviewService;
 
     public TestContainer(ClockHolder clockHolder) {
         this.foodRepository = new FakeFoodRepository();
@@ -25,10 +28,14 @@ public class TestContainer {
             .foodRepository(foodRepository)
             .clockHolder(clockHolder)
             .build();
+        this.reviewService =  ReviewServiceImpl.builder()
+                .reviewRepository(reviewRepository)
+                .clockHolder(clockHolder)
+                .build();
         this.recommendationService = RecommendationServiceImpl.builder()
                 .recommendationHolder(recommendationHolder)
-                .foodRepository(foodRepository)
-                .reviewRepository(reviewRepository)
+                .foodService(foodService)
+                .reviewService(reviewService)
                 .build();
     }
 }

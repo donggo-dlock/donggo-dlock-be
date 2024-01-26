@@ -180,5 +180,18 @@ class FoodServiceImplTest {
         assertThat(pageResponse.hasPrevious()).isFalse();
     }
 
+    @Test
+    void 추천하면_추천수가_1_증가한다(){
+        //given
+        Long id = 1L;
+        Boolean recommendationFlag = true;
+
+        //when
+        foodServiceImpl.updateRecommendations(id, recommendationFlag);
+
+        //then
+        FoodInfoResponse foodInfoResponse = foodServiceImpl.get(id);
+        assertThat(foodInfoResponse.likes()).isEqualTo(1);
+    }
 
 }

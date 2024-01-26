@@ -1,6 +1,7 @@
 package com.example.base.mock;
 
 import com.example.base.food.domain.Food;
+import com.example.base.review.domain.Review;
 import com.example.base.review.service.port.ReviewRepository;
 import lombok.extern.slf4j.Slf4j;
 
@@ -13,8 +14,14 @@ import java.util.concurrent.atomic.AtomicLong;
 public class FakeReviewRepository implements ReviewRepository {
     private final AtomicLong idGenerator = new AtomicLong(1L);
     private final List<Food> data = Collections.synchronizedList(new ArrayList<>());
-    @Override
-    public void increase(Long id, Boolean recommendationFlag) {
 
+    @Override
+    public void save(Review review) {
+
+    }
+
+    @Override
+    public Review get(Long id) {
+        return null;
     }
 }

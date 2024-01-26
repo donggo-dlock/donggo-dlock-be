@@ -31,12 +31,6 @@ class RecommendationServiceTest {
         foodRepository.save(food1);
     }
 
-    @AfterEach
-    void tearDown() {
-        Food food1 = getFood();
-        foodRepository.delete(food1);
-    }
-
     private static Food getFood() {
         Food food1 = new Food();
         food1.setId(1L);
