@@ -85,11 +85,4 @@ public class FakeFoodRepository implements FoodRepository {
     public void delete(Food food) {
         data.removeIf(item -> item.getId().equals(food.getId()));
     }
-
-    @Override
-    public void increase(Long id, Boolean recommendationFlag) {
-
-    }
-
-
 }
