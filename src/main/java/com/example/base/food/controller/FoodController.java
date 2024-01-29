@@ -4,7 +4,7 @@ import com.example.base.food.controller.port.FoodService;
 import com.example.base.food.controller.request.FoodCreateRequest;
 import com.example.base.food.controller.response.FoodInfoResponse;
 import com.example.base.food.controller.response.FoodResponse;
-import com.example.base.food.domain.dto.FoodDelete;
+import com.example.base.commentable.domain.dto.CommentableDelete;
 import com.example.base.food.domain.dto.FoodSearch;
 import com.example.base.reportable.utils.IpAddressUtils;
 import com.example.base.web.annotation.IpAddress;
@@ -44,7 +44,7 @@ public class FoodController {
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id, @Valid @RequestBody FoodDelete foodDelete) {
-        foodService.delete(foodDelete, id);
+    public void delete(@PathVariable Long id, @Valid @RequestBody CommentableDelete commentableDelete) {
+        foodService.delete(commentableDelete, id);
     }
 }

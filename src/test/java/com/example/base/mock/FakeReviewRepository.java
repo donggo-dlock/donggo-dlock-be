@@ -2,7 +2,10 @@ package com.example.base.mock;
 
 import com.example.base.food.domain.Food;
 import com.example.base.review.domain.Review;
+import com.example.base.review.domain.dto.ReviewSearch;
 import com.example.base.review.service.port.ReviewRepository;
+import com.example.base.web.dto.PageCreate;
+import com.example.base.web.dto.PageResponse;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
@@ -22,6 +25,16 @@ public class FakeReviewRepository implements ReviewRepository {
 
     @Override
     public Review get(Long id) {
+        return null;
+    }
+
+    @Override
+    public void delete(Review review) {
+
+    }
+
+    @Override
+    public PageResponse<Review> getPage(PageCreate pageCreate, ReviewSearch reviewSearch) {
         return null;
     }
 }
