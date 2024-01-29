@@ -13,5 +13,4 @@ public class Review extends Commentable {
     private String title;
     private Boolean sleepFlag;
     private String result;
-
 }

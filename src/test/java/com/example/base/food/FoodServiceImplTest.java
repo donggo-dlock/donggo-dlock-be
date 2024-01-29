@@ -42,7 +42,7 @@ class FoodServiceImplTest {
         food1.setPassword("1234");
         food1.setContent("피자는 맛있다");
         food1.setDaysBeforeTest(3);
-        food1.setMainIngredient("#밀가루 #치즈 #토마토소스");
+        food1.setMainIngredient("밀가루&치즈&토마토소스");
         food1.setViews(0);
         food1.setLikes(0);
         food1.setDislikes(0);
@@ -57,7 +57,7 @@ class FoodServiceImplTest {
         food2.setPassword("0234");
         food2.setContent("피자는 맛있다");
         food2.setDaysBeforeTest(3);
-        food2.setMainIngredient("#밀가루 #치즈 #토마토소스");
+        food2.setMainIngredient("밀가루&치즈&토마토소스");
         food2.setViews(0);
         food2.setLikes(0);
         food2.setDislikes(0);
@@ -75,7 +75,7 @@ class FoodServiceImplTest {
                 .content("피자는 맛있다")
                 .password("1234")
                 .daysBeforeTest(3)
-                .mainIngredient("#밀가루 #치즈 #토마토소스")
+                .mainIngredient("밀가루&치즈&토마토소스")
                 .build();
         String userInformation = "127.0.0.1:2024-01-23";
 
@@ -83,11 +83,12 @@ class FoodServiceImplTest {
         foodServiceImpl.create(foodCreateRequest, userInformation);
 
         //then
+        String[] mainIngredient = {"밀가루", "치즈", "토마토소스"};
         FoodInfoResponse foodInfoResponse = foodServiceImpl.get("피자3");
         assertThat(foodInfoResponse.name()).isEqualTo("피자3");
         assertThat(foodInfoResponse.content()).isEqualTo("피자는 맛있다");
         assertThat(foodInfoResponse.daysBeforeTest()).isEqualTo(3);
-        assertThat(foodInfoResponse.mainIngredient()).isEqualTo("#밀가루 #치즈 #토마토소스");
+        assertThat(foodInfoResponse.mainIngredient()).isEqualTo(mainIngredient);
         assertThat(foodInfoResponse.status()).isEqualTo(ActiveStatus.ACTIVE);
         assertThat(foodInfoResponse.views()).isZero();
         assertThat(foodInfoResponse.likes()).isZero();
@@ -134,10 +135,11 @@ class FoodServiceImplTest {
         FoodInfoResponse foodInfoResponse = foodServiceImpl.get(id);
 
         //then
+        String[] mainIngredient = {"밀가루", "치즈", "토마토소스"};
         assertThat(foodInfoResponse.name()).isEqualTo("피자");
         assertThat(foodInfoResponse.content()).isEqualTo("피자는 맛있다");
         assertThat(foodInfoResponse.daysBeforeTest()).isEqualTo(3);
-        assertThat(foodInfoResponse.mainIngredient()).isEqualTo("#밀가루 #치즈 #토마토소스");
+        assertThat(foodInfoResponse.mainIngredient()).isEqualTo(mainIngredient);
         assertThat(foodInfoResponse.status()).isEqualTo(ActiveStatus.ACTIVE);
         assertThat(foodInfoResponse.views()).isZero();
         assertThat(foodInfoResponse.likes()).isZero();
@@ -180,5 +182,18 @@ class FoodServiceImplTest {
         assertThat(pageResponse.hasPrevious()).isFalse();
     }
 
+    @Test
+    void 추천하면_추천수가_1_증가한다(){
+        //given
+        Long id = 1L;
+        Boolean recommendationFlag = true;
+
+        //when
+        foodServiceImpl.updateRecommendations(id, recommendationFlag);
+
+        //then
+        FoodInfoResponse foodInfoResponse = foodServiceImpl.get(id);
+        assertThat(foodInfoResponse.likes()).isEqualTo(1);
+    }
 
 }

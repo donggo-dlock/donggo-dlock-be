@@ -14,5 +14,6 @@ public interface FoodService {
     public FoodInfoResponse get(String name);
     public FoodInfoResponse get(Long id);
     public void delete(FoodDelete foodDelete, Long id);
+    public void updateRecommendations(Long id, Boolean recommendationFlag);
 
 }
