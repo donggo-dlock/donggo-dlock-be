@@ -1,7 +1,7 @@
 package com.example.base.review.service;
 
 
-import com.example.base.commentable.domain.dto.CommentableDelete;
+import com.example.base.reportable.domain.dto.ReportableDelete;
 import com.example.base.common.service.port.ClockHolder;
 import com.example.base.common.service.port.PasswordHolder;
 import com.example.base.review.controller.port.ReviewService;
@@ -67,9 +67,9 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public void delete(CommentableDelete commentableDelete, Long id) {
+    public void delete(ReportableDelete reportableDelete, Long id) {
         Review review = reviewRepository.get(id);
-        passwordHolder.match(commentableDelete.password(), review.getPassword());
+        passwordHolder.match(reportableDelete.password(), review.getPassword());
         reviewRepository.delete(review);
     }
 }

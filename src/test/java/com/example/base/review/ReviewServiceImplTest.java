@@ -1,6 +1,6 @@
 package com.example.base.review;
 
-import com.example.base.commentable.domain.dto.CommentableDelete;
+import com.example.base.reportable.domain.dto.ReportableDelete;
 import com.example.base.common.exception.PasswordNotMatchException;
 import com.example.base.common.exception.ResourceNotFoundException;
 import com.example.base.common.service.port.ClockHolder;
@@ -97,13 +97,13 @@ class ReviewServiceImplTest {
     @Test
     void 비밀번호가_일치하면_리뷰가_정상적으로_삭제된다(){
         //given
-        CommentableDelete commentableDelete = CommentableDelete.builder()
+        ReportableDelete reportableDelete = ReportableDelete.builder()
                 .password(password)
                 .build();
         Long id = 1L;
 
         //when
-        reviewService.delete(commentableDelete, id);
+        reviewService.delete(reportableDelete, id);
 
         //then
         assertThatThrownBy( () -> reviewService.get(1L))
@@ -113,13 +113,13 @@ class ReviewServiceImplTest {
     @Test
     void 비밀번호가_일치하지_않으면_에러가_발생한다(){
         //given
-        CommentableDelete commentableDelete = CommentableDelete.builder()
+        ReportableDelete reportableDelete = ReportableDelete.builder()
                 .password("1230")
                 .build();
         Long id = 1L;
 
         //when
-        assertThatThrownBy( () -> reviewService.delete(commentableDelete, id))
+        assertThatThrownBy( () -> reviewService.delete(reportableDelete, id))
                 .isInstanceOf(PasswordNotMatchException.class);
     }
 

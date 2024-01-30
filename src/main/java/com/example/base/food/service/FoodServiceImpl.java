@@ -10,7 +10,7 @@ import com.example.base.food.controller.response.FoodInfoResponse;
 import com.example.base.food.controller.response.FoodResponse;
 import com.example.base.food.domain.Food;
 import com.example.base.food.domain.dto.FoodCreate;
-import com.example.base.commentable.domain.dto.CommentableDelete;
+import com.example.base.reportable.domain.dto.ReportableDelete;
 import com.example.base.food.domain.dto.FoodSearch;
 import com.example.base.food.service.port.FoodRepository;
 import com.example.base.web.dto.PageCreate;
@@ -61,9 +61,9 @@ public class FoodServiceImpl implements FoodService {
     }
 
     @Override
-    public void delete(CommentableDelete commentableDelete, Long id) {
+    public void delete(ReportableDelete reportableDelete, Long id) {
         Food food = foodRepository.get(id);
-        passwordHolder.match(commentableDelete.password(), food.getPassword());
+        passwordHolder.match(reportableDelete.password(), food.getPassword());
         foodRepository.delete(food);
     }
 
