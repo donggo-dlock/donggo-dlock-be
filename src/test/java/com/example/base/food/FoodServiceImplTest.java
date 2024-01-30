@@ -83,18 +83,18 @@ class FoodServiceImplTest {
         foodServiceImpl.create(foodCreateRequest, userInformation);
 
         //then
-        String[] mainIngredient = {"밀가루", "치즈", "토마토소스"};
-        FoodInfoResponse foodInfoResponse = foodServiceImpl.get("피자3");
-        assertThat(foodInfoResponse.name()).isEqualTo("피자3");
-        assertThat(foodInfoResponse.content()).isEqualTo("피자는 맛있다");
-        assertThat(foodInfoResponse.daysBeforeTest()).isEqualTo(3);
-        assertThat(foodInfoResponse.mainIngredient()).isEqualTo(mainIngredient);
-        assertThat(foodInfoResponse.status()).isEqualTo(ActiveStatus.ACTIVE);
-        assertThat(foodInfoResponse.views()).isZero();
-        assertThat(foodInfoResponse.likes()).isZero();
-        assertThat(foodInfoResponse.dislikes()).isZero();
-        assertThat(foodInfoResponse.createdAt()).isEqualTo("2024-01-23 00:00");
-        assertThat(foodInfoResponse.id()).isPositive();
+        Food food = fakeFoodRepository.get("피자3");
+        assertThat(food.getName()).isEqualTo("피자3");
+        assertThat(food.getContent()).isEqualTo("피자는 맛있다");
+        assertThat(food.getPassword()).isEqualTo("1234");
+        assertThat(food.getDaysBeforeTest()).isEqualTo(3);
+        assertThat(food.getMainIngredient()).isEqualTo("밀가루&치즈&토마토소스");
+        assertThat(food.getViews()).isZero();
+        assertThat(food.getLikes()).isZero();
+        assertThat(food.getDislikes()).isZero();
+        assertThat(food.getCreatedAt()).isEqualTo(10000L);
+        assertThat(food.getStatus()).isEqualTo(ActiveStatus.ACTIVE);
+        assertThat(food.getUserInformation()).isEqualTo(userInformation);
     }
 
     @Test
@@ -109,7 +109,7 @@ class FoodServiceImplTest {
         foodServiceImpl.delete(reportableDelete, id);
 
         //then
-        assertThatThrownBy( () -> foodServiceImpl.get(1L))
+        assertThatThrownBy( () -> foodServiceImpl.getFoodInfoResponse(1L))
                 .isInstanceOf(ResourceNotFoundException.class);
     }
 
@@ -132,7 +132,7 @@ class FoodServiceImplTest {
         Long id = 1L;
 
         //when
-        FoodInfoResponse foodInfoResponse = foodServiceImpl.get(id);
+        FoodInfoResponse foodInfoResponse = foodServiceImpl.getFoodInfoResponse(id);
 
         //then
         String[] mainIngredient = {"밀가루", "치즈", "토마토소스"};
@@ -154,7 +154,7 @@ class FoodServiceImplTest {
         Long id = 2L;
 
         //when
-        assertThatThrownBy( () -> foodServiceImpl.get(id))
+        assertThatThrownBy( () -> foodServiceImpl.getFoodInfoResponse(id))
                 .isInstanceOf(ResourceNotFoundException.class);
     }
 
@@ -192,7 +192,7 @@ class FoodServiceImplTest {
         foodServiceImpl.updateRecommendations(id, recommendationFlag);
 
         //then
-        FoodInfoResponse foodInfoResponse = foodServiceImpl.get(id);
+        FoodInfoResponse foodInfoResponse = foodServiceImpl.getFoodInfoResponse(id);
         assertThat(foodInfoResponse.likes()).isEqualTo(1);
     }
 
