@@ -12,6 +12,7 @@ import com.example.base.review.domain.Review;
 import com.example.base.review.domain.dto.ReviewCreate;
 import com.example.base.review.domain.dto.ReviewSearch;
 import com.example.base.review.service.port.ReviewRepository;
+import com.example.base.review.service.port.ReviewViewHolder;
 import com.example.base.web.dto.PageCreate;
 import com.example.base.web.dto.PageResponse;
 import lombok.Builder;
@@ -30,6 +31,7 @@ public class ReviewServiceImpl implements ReviewService {
     private final ReviewRepository reviewRepository;
     private final PasswordHolder passwordHolder;
     private final ClockHolder clockHolder;
+    private final ReviewViewHolder reviewViewHolder;
 
     @Override
     public void create(ReviewCreateRequest reviewCreateRequest, String ipAddress) {
@@ -45,7 +47,9 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public ReviewInfoResponse get(Long id) {
-        return ReviewInfoResponse.from(reviewRepository.get(id), clockHolder);
+        Review review = reviewRepository.get(id);
+        reviewViewHolder.increase(review.getId());
+        return ReviewInfoResponse.from(review, clockHolder);
     }
 
     @Override
