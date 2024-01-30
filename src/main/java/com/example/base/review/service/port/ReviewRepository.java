@@ -15,6 +15,9 @@ public interface ReviewRepository {
      @Transactional(propagation = Propagation.MANDATORY, readOnly = true)
      Review get(Long id);
 
+     @Transactional(propagation = Propagation.MANDATORY, readOnly = true)
+     Review get(String name);
+
      @Transactional(propagation = Propagation.MANDATORY)
      void delete(Review review);
 

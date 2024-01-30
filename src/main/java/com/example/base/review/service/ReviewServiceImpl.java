@@ -49,6 +49,11 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
+    public Review getByName(String name) {
+        return reviewRepository.get(name);
+    }
+
+    @Override
     public PageResponse<ReviewResponse> getPagination(PageCreate pageCreate, ReviewSearch reviewSearch) {
         PageResponse<Review> reviewPageResponse = reviewRepository.getPage(pageCreate, reviewSearch);
         List<ReviewResponse> reviewResponseList = reviewPageResponse.getContent().stream()

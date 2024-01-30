@@ -1,16 +1,12 @@
 package com.example.base.mock;
 
 import com.example.base.common.exception.ResourceNotFoundException;
-import com.example.base.food.domain.Food;
 import com.example.base.reportable.domain.ActiveStatus;
 import com.example.base.review.domain.Review;
 import com.example.base.review.domain.dto.ReviewSearch;
 import com.example.base.review.service.port.ReviewRepository;
 import com.example.base.web.dto.PageCreate;
 import com.example.base.web.dto.PageResponse;
-import com.querydsl.core.types.dsl.BooleanExpression;
-import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.annotation.Nullable;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.*;
@@ -57,27 +53,46 @@ public class FakeReviewRepository implements ReviewRepository {
     }
 
     @Override
+    public Review get(String name) {
+        return data.stream()
+                .filter(item -> item.getName().equals(name))
+                .filter(item -> item.getStatus().equals(ActiveStatus.ACTIVE))
+                .findAny()
+                .orElseThrow(() -> new ResourceNotFoundException("Review", name));
+    }
+
+
+    @Override
     public void delete(Review review) {
         data.removeIf(item -> item.getId().equals(review.getId()));
     }
 
     @Override
-    public PageResponse<Review> getPage(PageCreate pageCreate, ReviewSearch reviewSearch) {
-        int[] ageConditions = Arrays.stream(reviewSearch.age().split("#")).mapToInt(Integer::parseInt).toArray();
-        String[] resultConditions = reviewSearch.result().split("#");
+    public PageResponse<Review> getPage(PageCreate pageCreate, ReviewSearch reviewSearch) {;
 
         List<Review> filteredData = data.stream()
             .filter(item -> item.getStatus().equals(ActiveStatus.ACTIVE))
-            .filter(item -> reviewSearch.keyword().isEmpty()? true : item.getName().contains(reviewSearch.keyword()))
+            .filter(item -> Objects.isNull(reviewSearch.keyword())? true : item.getName().contains(reviewSearch.keyword()))
             .filter(item -> reviewSearch.gender() == '\u0000'? true: Objects.equals(reviewSearch.gender(), item.getGender()))
             .filter(item -> Objects.isNull(reviewSearch.sleepFlag())? true: Objects.equals(reviewSearch.sleepFlag(), item.getSleepFlag()))
-            .filter(item -> Arrays.stream(ageConditions).anyMatch(age -> age == item.getAge()))
-            .filter(item -> Arrays.stream(resultConditions).anyMatch(result -> result.equals(item.getResult())))
             .sorted(Comparator.<Review>comparingInt(item -> "views".equals(reviewSearch.sortBy()) ? item.getViews() : 0)
                     .thenComparingInt(item -> "likes".equals(reviewSearch.sortBy()) ? item.getLikes() : 0)
                     .thenComparingLong(Review::getId)
                     .reversed())
             .collect(Collectors.toList());
+
+        if (reviewSearch.age() != null) {
+            int[] ageConditions = Arrays.stream(reviewSearch.age().split("#")).mapToInt(Integer::parseInt).toArray();
+            filteredData = filteredData.stream()
+                    .filter(item -> Arrays.stream(ageConditions).anyMatch(age -> age == item.getAge()))
+                    .collect(Collectors.toList());
+        }
+        if (reviewSearch.result() != null){
+            String[] resultConditions = reviewSearch.result().split("&");
+            filteredData = filteredData.stream()
+                    .filter(item -> Arrays.stream(resultConditions).anyMatch(result -> result.equals(item.getResult())))
+                    .collect(Collectors.toList());
+        }
 
         int total = filteredData.size();
         filteredData = filteredData.stream()

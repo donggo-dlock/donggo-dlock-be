@@ -45,6 +45,12 @@ public class ReviewRepositoryImpl extends BaseRepository<ReviewEntity, Long> imp
         return reviewEntity.toModel();
     }
 
+    //테스트용 메서드
+    @Override
+    public Review get(String name) {
+        return null;
+    }
+
     @Override
     public void delete(Review review) {
         delete(ReviewEntity.from(review));
