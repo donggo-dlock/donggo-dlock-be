@@ -15,6 +15,9 @@ public record ReviewInfoResponse(
     boolean sleepFlag,
     int age,
     String[] result,
+    int views,
+    int likes,
+    int dislikes,
     String createdAt
 ) {
     public static ReviewInfoResponse from(Review review, ClockHolder clockHolder){
@@ -28,6 +31,9 @@ public record ReviewInfoResponse(
                 .gender(review.getGender())
                 .sleepFlag(review.getSleepFlag())
                 .result(result)
+                .views(review.getViews())
+                .likes(review.getLikes())
+                .dislikes(review.getDislikes())
                 .createdAt(clockHolder.dateTime(review.getCreatedAt()))
                 .build();
     }
