@@ -13,7 +13,6 @@ import java.util.Arrays;
 public class CorsConfig {
     private final String[] allowedOrigins = {
             "http://localhost:3000",
-            "https://*.donggo-dlock.site",
             "https://admin.donggo-dlock.site",
             "https://www.donggo-dlock.site",
             "https://donggo-dlock.site",
