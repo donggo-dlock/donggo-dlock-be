@@ -13,6 +13,7 @@ public interface FoodService {
     public void create(FoodCreateRequest foodCreateRequest, String ipAddress);
     public PageResponse<FoodResponse> getPagination(PageCreate pageCreate, FoodSearch foodSearch);
     public Food get(String name);
+    public Food get(Long id);
     public FoodInfoResponse getFoodInfoResponse(Long id);
     public void delete(ReportableDelete reportableDelete, Long id);
     public void updateRecommendations(Long id, Boolean recommendationFlag);

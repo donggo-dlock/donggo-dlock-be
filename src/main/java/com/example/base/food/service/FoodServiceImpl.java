@@ -55,6 +55,11 @@ public class FoodServiceImpl implements FoodService {
     }
 
     @Override
+    public Food get(Long id) {
+        return foodRepository.get(id);
+    }
+
+    @Override
     public FoodInfoResponse getFoodInfoResponse(Long id) {
         Food food = foodRepository.get(id);
         foodViewHolder.increase(food.getId());

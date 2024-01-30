@@ -13,7 +13,8 @@ public interface ReviewService {
     public void create(ReviewCreateRequest reviewCreateRequest, String ipAddress);
     public void updateRecommendations(Long id, Boolean recommendationFlag);
 
-    ReviewInfoResponse get(Long id);
+    ReviewInfoResponse getReviewInfoResponse(Long id);
+    Review get(Long id);
     Review getByName(String name);
 
     PageResponse<ReviewResponse> getPagination(PageCreate pageCreate, ReviewSearch reviewSearch);

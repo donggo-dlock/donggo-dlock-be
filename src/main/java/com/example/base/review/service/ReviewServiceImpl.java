@@ -46,10 +46,15 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public ReviewInfoResponse get(Long id) {
+    public ReviewInfoResponse getReviewInfoResponse(Long id) {
         Review review = reviewRepository.get(id);
         reviewViewHolder.increase(review.getId());
         return ReviewInfoResponse.from(review, clockHolder);
+    }
+
+    @Override
+    public Review get(Long id) {
+        return reviewRepository.get(id);
     }
 
     @Override

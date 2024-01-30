@@ -5,4 +5,5 @@ import com.example.base.comment.domain.Comment;
 
 public interface CommentRepository {
     void save(Comment comment);
+    Comment get(Long id);
 }

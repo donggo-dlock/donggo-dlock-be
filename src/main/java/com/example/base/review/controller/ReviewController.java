@@ -33,7 +33,7 @@ public class ReviewController {
 
     @GetMapping("/{id}")
     public ReviewInfoResponse getInfo(@PathVariable Long id) {
-        return reviewService.get(id);
+        return reviewService.getReviewInfoResponse(id);
     }
 
     @GetMapping("/list")

@@ -106,7 +106,7 @@ class ReviewServiceImplTest {
         reviewService.delete(reportableDelete, id);
 
         //then
-        assertThatThrownBy( () -> reviewService.get(1L))
+        assertThatThrownBy( () -> reviewService.getReviewInfoResponse(1L))
                 .isInstanceOf(ResourceNotFoundException.class);
     }
 
@@ -129,7 +129,7 @@ class ReviewServiceImplTest {
         Long id = 1L;
 
         //when
-        ReviewInfoResponse reviewInfoResponse = reviewService.get(id);
+        ReviewInfoResponse reviewInfoResponse = reviewService.getReviewInfoResponse(id);
 
         //then
         String[] resultList = {"이상없음"};
@@ -151,7 +151,7 @@ class ReviewServiceImplTest {
         Long id = 3L;
 
         //when
-        assertThatThrownBy( () -> reviewService.get(id))
+        assertThatThrownBy( () -> reviewService.getReviewInfoResponse(id))
                 .isInstanceOf(ResourceNotFoundException.class);
     }
 
@@ -187,7 +187,7 @@ class ReviewServiceImplTest {
         reviewService.updateRecommendations(id, recommendationFlag);
 
         //then
-        ReviewInfoResponse reviewInfoResponse = reviewService.get(id);
+        ReviewInfoResponse reviewInfoResponse = reviewService.getReviewInfoResponse(id);
         assertThat(reviewInfoResponse.likes()).isEqualTo(1);
     }
 
