@@ -38,6 +38,7 @@ public class FakeFoodRepository implements FoodRepository {
             newFood.setCreatedAt(food.getCreatedAt());
             newFood.setStatus(food.getStatus());
             data.add(newFood);
+            return;
         }
         data.removeIf(item -> item.getId().equals(food.getId()));
         data.add(food);
