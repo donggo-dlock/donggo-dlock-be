@@ -9,6 +9,8 @@ import com.example.base.commentable.domain.Commentable;
 import com.example.base.common.exception.PasswordNotMatchException;
 import com.example.base.common.exception.ResourceNotFoundException;
 import com.example.base.food.domain.Food;
+import com.example.base.mock.TestClockHolder;
+import com.example.base.mock.TestContainer;
 import com.example.base.reportable.domain.ActiveStatus;
 import com.example.base.reportable.domain.dto.ReportableDelete;
 import com.example.base.web.dto.PageCreate;
@@ -25,7 +27,29 @@ class CommentServiceImplTest {
 
     @BeforeEach
     void setUp() {
+        TestContainer testContainer = new TestContainer(new TestClockHolder(10000L));
+        commentService = testContainer.commentService;
 
+        Food food1 = generateFood();
+        testContainer.foodRepository.save(food1);
+
+    }
+
+    private Food generateFood() {
+        Food food1 = new Food();
+        food1.setId(1L);
+        food1.setName("피자");
+        food1.setPassword("1234");
+        food1.setContent("피자는 맛있다");
+        food1.setDaysBeforeTest(3);
+        food1.setMainIngredient("밀가루&치즈&토마토소스");
+        food1.setViews(0);
+        food1.setLikes(0);
+        food1.setDislikes(0);
+        food1.setCreatedAt(10000L);
+        food1.setStatus(ActiveStatus.ACTIVE);
+        food1.setUserInformation("127.0.0.1:2023-12-12");
+        return food1;
     }
 
     @Test
