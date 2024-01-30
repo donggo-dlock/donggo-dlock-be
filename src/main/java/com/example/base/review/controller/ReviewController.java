@@ -1,6 +1,6 @@
 package com.example.base.review.controller;
 
-import com.example.base.commentable.domain.dto.CommentableDelete;
+import com.example.base.reportable.domain.dto.ReportableDelete;
 import com.example.base.reportable.utils.IpAddressUtils;
 import com.example.base.review.controller.port.ReviewService;
 import com.example.base.review.controller.request.ReviewCreateRequest;
@@ -33,7 +33,7 @@ public class ReviewController {
 
     @GetMapping("/{id}")
     public ReviewInfoResponse getInfo(@PathVariable Long id) {
-        return reviewService.get(id);
+        return reviewService.getReviewInfoResponse(id);
     }
 
     @GetMapping("/list")
@@ -42,7 +42,7 @@ public class ReviewController {
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id, @Valid @RequestBody CommentableDelete commentableDelete) {
-        reviewService.delete(commentableDelete, id);
+    public void delete(@PathVariable Long id, @Valid @RequestBody ReportableDelete reportableDelete) {
+        reviewService.delete(reportableDelete, id);
     }
 }

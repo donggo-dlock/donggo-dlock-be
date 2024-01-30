@@ -10,7 +10,7 @@ import com.example.base.food.controller.response.FoodInfoResponse;
 import com.example.base.food.controller.response.FoodResponse;
 import com.example.base.food.domain.Food;
 import com.example.base.food.domain.dto.FoodCreate;
-import com.example.base.commentable.domain.dto.CommentableDelete;
+import com.example.base.reportable.domain.dto.ReportableDelete;
 import com.example.base.food.domain.dto.FoodSearch;
 import com.example.base.food.service.port.FoodRepository;
 import com.example.base.web.dto.PageCreate;
@@ -49,21 +49,27 @@ public class FoodServiceImpl implements FoodService {
     }
 
     @Override
-    public FoodInfoResponse get(String name) {
-        return FoodInfoResponse.from(foodRepository.get(name), clockHolder);
+    public Food get(String name) {
+        // do nothing for now , just for test
+        return null;
     }
 
     @Override
-    public FoodInfoResponse get(Long id) {
+    public Food get(Long id) {
+        return foodRepository.get(id);
+    }
+
+    @Override
+    public FoodInfoResponse getFoodInfoResponse(Long id) {
         Food food = foodRepository.get(id);
         foodViewHolder.increase(food.getId());
         return FoodInfoResponse.from(food, clockHolder);
     }
 
     @Override
-    public void delete(CommentableDelete commentableDelete, Long id) {
+    public void delete(ReportableDelete reportableDelete, Long id) {
         Food food = foodRepository.get(id);
-        passwordHolder.match(commentableDelete.password(), food.getPassword());
+        passwordHolder.match(reportableDelete.password(), food.getPassword());
         foodRepository.delete(food);
     }
 

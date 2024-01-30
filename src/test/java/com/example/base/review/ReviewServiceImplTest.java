@@ -1,6 +1,6 @@
 package com.example.base.review;
 
-import com.example.base.commentable.domain.dto.CommentableDelete;
+import com.example.base.reportable.domain.dto.ReportableDelete;
 import com.example.base.common.exception.PasswordNotMatchException;
 import com.example.base.common.exception.ResourceNotFoundException;
 import com.example.base.common.service.port.ClockHolder;
@@ -97,29 +97,29 @@ class ReviewServiceImplTest {
     @Test
     void 비밀번호가_일치하면_리뷰가_정상적으로_삭제된다(){
         //given
-        CommentableDelete commentableDelete = CommentableDelete.builder()
+        ReportableDelete reportableDelete = ReportableDelete.builder()
                 .password(password)
                 .build();
         Long id = 1L;
 
         //when
-        reviewService.delete(commentableDelete, id);
+        reviewService.delete(reportableDelete, id);
 
         //then
-        assertThatThrownBy( () -> reviewService.get(1L))
+        assertThatThrownBy( () -> reviewService.getReviewInfoResponse(1L))
                 .isInstanceOf(ResourceNotFoundException.class);
     }
 
     @Test
     void 비밀번호가_일치하지_않으면_에러가_발생한다(){
         //given
-        CommentableDelete commentableDelete = CommentableDelete.builder()
+        ReportableDelete reportableDelete = ReportableDelete.builder()
                 .password("1230")
                 .build();
         Long id = 1L;
 
         //when
-        assertThatThrownBy( () -> reviewService.delete(commentableDelete, id))
+        assertThatThrownBy( () -> reviewService.delete(reportableDelete, id))
                 .isInstanceOf(PasswordNotMatchException.class);
     }
 
@@ -129,7 +129,7 @@ class ReviewServiceImplTest {
         Long id = 1L;
 
         //when
-        ReviewInfoResponse reviewInfoResponse = reviewService.get(id);
+        ReviewInfoResponse reviewInfoResponse = reviewService.getReviewInfoResponse(id);
 
         //then
         String[] resultList = {"이상없음"};
@@ -151,7 +151,7 @@ class ReviewServiceImplTest {
         Long id = 3L;
 
         //when
-        assertThatThrownBy( () -> reviewService.get(id))
+        assertThatThrownBy( () -> reviewService.getReviewInfoResponse(id))
                 .isInstanceOf(ResourceNotFoundException.class);
     }
 
@@ -187,7 +187,7 @@ class ReviewServiceImplTest {
         reviewService.updateRecommendations(id, recommendationFlag);
 
         //then
-        ReviewInfoResponse reviewInfoResponse = reviewService.get(id);
+        ReviewInfoResponse reviewInfoResponse = reviewService.getReviewInfoResponse(id);
         assertThat(reviewInfoResponse.likes()).isEqualTo(1);
     }
 

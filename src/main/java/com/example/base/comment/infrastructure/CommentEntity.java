@@ -56,6 +56,7 @@ public class CommentEntity {
     public static CommentEntity from(Comment comment) {
         CommentEntity commentEntity = new CommentEntity();
         commentEntity.setId(comment.getId());
+        commentEntity.setName(comment.getName());
         commentEntity.setUserInformation(comment.getUserInformation());
         commentEntity.setPassword(comment.getPassword());
         commentEntity.setContent(comment.getContent());
@@ -75,6 +76,7 @@ public class CommentEntity {
     public Comment toModel() {
         Comment comment = new Comment();
         comment.setId(id);
+        comment.setName(name);
         comment.setUserInformation(userInformation);
         comment.setPassword(password);
         comment.setContent(content);
