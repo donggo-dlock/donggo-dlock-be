@@ -6,7 +6,7 @@ import com.example.base.food.controller.request.FoodCreateRequest;
 import com.example.base.food.controller.response.FoodInfoResponse;
 import com.example.base.food.controller.response.FoodResponse;
 import com.example.base.food.domain.Food;
-import com.example.base.food.domain.dto.FoodDelete;
+import com.example.base.commentable.domain.dto.CommentableDelete;
 import com.example.base.food.domain.dto.FoodSearch;
 import com.example.base.food.service.FoodServiceImpl;
 import com.example.base.mock.FakeFoodRepository;
@@ -33,7 +33,7 @@ class FoodServiceImplTest {
         fakeFoodRepository = new FakeFoodRepository();
         TestClockHolder testClockHolder = new TestClockHolder(10000L);
         TestPasswordHolder testPasswordHolder = new TestPasswordHolder();
-        TestFoodViewHolder testFoodViewHolder = new TestFoodViewHolder();
+        TestFoodViewHolder testFoodViewHolder = new TestFoodViewHolder(fakeFoodRepository);
         foodServiceImpl = new FoodServiceImpl(fakeFoodRepository, testClockHolder, testPasswordHolder, testFoodViewHolder);
 
         Food food1 = new Food();
@@ -93,20 +93,20 @@ class FoodServiceImplTest {
         assertThat(foodInfoResponse.views()).isZero();
         assertThat(foodInfoResponse.likes()).isZero();
         assertThat(foodInfoResponse.dislikes()).isZero();
-        assertThat(foodInfoResponse.createdAt()).isEqualTo("2024-01-23 00:00:00");
+        assertThat(foodInfoResponse.createdAt()).isEqualTo("2024-01-23 00:00");
         assertThat(foodInfoResponse.id()).isPositive();
     }
 
     @Test
     void 비밀번호가_일치하면_음식이_정상적으로_삭제된다(){
         //given
-        FoodDelete foodDelete = FoodDelete.builder()
+        CommentableDelete commentableDelete = CommentableDelete.builder()
                 .password("1234")
                 .build();
         Long id = 1L;
 
         //when
-        foodServiceImpl.delete(foodDelete, id);
+        foodServiceImpl.delete(commentableDelete, id);
 
         //then
         assertThatThrownBy( () -> foodServiceImpl.get(1L))
@@ -116,13 +116,13 @@ class FoodServiceImplTest {
     @Test
     void 비밀번호가_일치하지_않으면_에러가_발생한다(){
         //given
-        FoodDelete foodDelete = FoodDelete.builder()
+        CommentableDelete commentableDelete = CommentableDelete.builder()
                 .password("1230")
                 .build();
         Long id = 1L;
 
         //when
-        assertThatThrownBy( () -> foodServiceImpl.delete(foodDelete, id))
+        assertThatThrownBy( () -> foodServiceImpl.delete(commentableDelete, id))
                 .isInstanceOf(PasswordNotMatchException.class);
     }
 
@@ -141,10 +141,10 @@ class FoodServiceImplTest {
         assertThat(foodInfoResponse.daysBeforeTest()).isEqualTo(3);
         assertThat(foodInfoResponse.mainIngredient()).isEqualTo(mainIngredient);
         assertThat(foodInfoResponse.status()).isEqualTo(ActiveStatus.ACTIVE);
-        assertThat(foodInfoResponse.views()).isZero();
+        assertThat(foodInfoResponse.views()).isEqualTo(1);
         assertThat(foodInfoResponse.likes()).isZero();
         assertThat(foodInfoResponse.dislikes()).isZero();
-        assertThat(foodInfoResponse.createdAt()).isEqualTo("2024-01-23 00:00:00");
+        assertThat(foodInfoResponse.createdAt()).isEqualTo("2024-01-23 00:00");
         assertThat(foodInfoResponse.id()).isEqualTo(1L);
     }
 

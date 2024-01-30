@@ -22,7 +22,7 @@ public class ReviewEntity {
     @Column(name = "userInformation", columnDefinition = "varchar(50)")
     private String userInformation;
 
-    @Column(name = "password", columnDefinition = "varchar(4)")
+    @Column(name = "password", columnDefinition = "varchar(255)")
     private String password;
 
     @Column(name = "content", columnDefinition = "varchar(255)")
@@ -50,9 +50,6 @@ public class ReviewEntity {
     @Column(name = "age")
     private int age;
 
-    @Column(name = "title")
-    private String title;
-
     @Column(name = "sleepFlag")
     private Boolean sleepFlag;
 
@@ -72,9 +69,9 @@ public class ReviewEntity {
         reviewEntity.setCreatedAt(review.getCreatedAt());
         reviewEntity.setGender(review.getGender());
         reviewEntity.setAge(review.getAge());
-        reviewEntity.setTitle(review.getTitle());
         reviewEntity.setSleepFlag(review.getSleepFlag());
         reviewEntity.setResult(review.getResult());
+        reviewEntity.setStatus(review.getStatus());
         return reviewEntity;
     }
 
@@ -91,9 +88,9 @@ public class ReviewEntity {
         review.setCreatedAt(createdAt);
         review.setGender(gender);
         review.setAge(age);
-        review.setTitle(title);
         review.setSleepFlag(sleepFlag);
         review.setResult(result);
+        review.setStatus(status);
         return review;
     }
 

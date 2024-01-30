@@ -24,6 +24,6 @@ public class TestClockHolder implements ClockHolder {
 
     @Override
     public String dateTime(Long millis) {
-        return "2024-01-23 00:00:00";
+        return "2024-01-23 00:00";
     }
 }

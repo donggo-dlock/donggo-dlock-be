@@ -30,7 +30,4 @@ public class Food extends Commentable {
         return food;
     }
 
-    public void updateViews(int views) {
-        this.setViews(this.getViews()+views);
-    }
 }

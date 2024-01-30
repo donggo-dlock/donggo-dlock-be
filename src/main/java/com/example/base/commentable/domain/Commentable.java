@@ -19,4 +19,8 @@ public abstract class Commentable extends Reportable {
             this.setDislikes(this.getDislikes() + 1);
         }
     }
+
+    public void updateViews(int views) {
+        this.setViews(this.getViews()+views);
+    }
 }

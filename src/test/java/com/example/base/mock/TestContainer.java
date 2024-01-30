@@ -24,13 +24,19 @@ public class TestContainer {
         this.foodRepository = new FakeFoodRepository();
         this.reviewRepository = new FakeReviewRepository();
         this.recommendationHolder = new TestRecommendationHolder();
+        TestFoodViewHolder testFoodViewHolder = new TestFoodViewHolder(foodRepository);
+        TestReviewViewHolder testReviewViewHolder = new TestReviewViewHolder(reviewRepository);
         this.foodService = FoodServiceImpl.builder()
-            .foodRepository(foodRepository)
-            .clockHolder(clockHolder)
-            .build();
+                .foodRepository(foodRepository)
+                .foodViewHolder(testFoodViewHolder)
+                .clockHolder(clockHolder)
+                .passwordHolder(new TestPasswordHolder())
+                .build();
         this.reviewService =  ReviewServiceImpl.builder()
                 .reviewRepository(reviewRepository)
+                .reviewViewHolder(testReviewViewHolder)
                 .clockHolder(clockHolder)
+                .passwordHolder(new TestPasswordHolder())
                 .build();
         this.recommendationService = RecommendationServiceImpl.builder()
                 .recommendationHolder(recommendationHolder)

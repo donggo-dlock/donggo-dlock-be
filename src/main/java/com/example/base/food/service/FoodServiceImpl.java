@@ -10,7 +10,7 @@ import com.example.base.food.controller.response.FoodInfoResponse;
 import com.example.base.food.controller.response.FoodResponse;
 import com.example.base.food.domain.Food;
 import com.example.base.food.domain.dto.FoodCreate;
-import com.example.base.food.domain.dto.FoodDelete;
+import com.example.base.commentable.domain.dto.CommentableDelete;
 import com.example.base.food.domain.dto.FoodSearch;
 import com.example.base.food.service.port.FoodRepository;
 import com.example.base.web.dto.PageCreate;
@@ -43,7 +43,7 @@ public class FoodServiceImpl implements FoodService {
     public PageResponse<FoodResponse> getPagination(PageCreate pageCreate, FoodSearch foodSearch) {
         PageResponse<Food> foodPageResponse = foodRepository.getPage(pageCreate, foodSearch);
         List<FoodResponse> foodResponseList =foodPageResponse.getContent().stream()
-                .map(FoodResponse::from)
+                .map(food -> FoodResponse.from(food, clockHolder))
                 .toList();
         return PageResponse.of(foodResponseList,pageCreate,foodPageResponse.getTotal());
     }
@@ -55,15 +55,15 @@ public class FoodServiceImpl implements FoodService {
 
     @Override
     public FoodInfoResponse get(Long id) {
-        FoodInfoResponse foodInfoResponse =  FoodInfoResponse.from(foodRepository.get(id), clockHolder);
-        foodViewHolder.increase(foodInfoResponse.id());
-        return foodInfoResponse;
+        Food food = foodRepository.get(id);
+        foodViewHolder.increase(food.getId());
+        return FoodInfoResponse.from(food, clockHolder);
     }
 
     @Override
-    public void delete(FoodDelete foodDelete, Long id) {
+    public void delete(CommentableDelete commentableDelete, Long id) {
         Food food = foodRepository.get(id);
-        passwordHolder.match(foodDelete.password(), food.getPassword());
+        passwordHolder.match(commentableDelete.password(), food.getPassword());
         foodRepository.delete(food);
     }
 

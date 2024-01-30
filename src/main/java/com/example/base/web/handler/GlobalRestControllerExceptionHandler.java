@@ -4,8 +4,10 @@ package com.example.base.web.handler;
 import com.example.base.common.exception.BusinessException;
 import com.example.base.web.dto.ApiResponse;
 import com.example.base.web.dto.ApiResponseGenerator;
+import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.convert.ConversionFailedException;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -68,7 +70,6 @@ public class GlobalRestControllerExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler({
             IllegalArgumentException.class,
-            MethodArgumentNotValidException.class,
             MissingServletRequestParameterException.class,
             MethodArgumentTypeMismatchException.class,
             HttpMessageNotReadableException.class,
@@ -80,5 +81,35 @@ public class GlobalRestControllerExceptionHandler {
         log.info("[BadRequest] {}", exception.getMessage(), exception);
 
         return ApiResponseGenerator.fail(BAD_REQUEST.getCode(), BAD_REQUEST.getDescription());
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler({
+            MethodArgumentNotValidException.class,
+    })
+    protected ApiResponse<Void> handle(final MethodArgumentNotValidException exception) {
+        log.info("[MethodArgumentNotValidException] {}", exception.getBindingResult().getAllErrors().get(0).getDefaultMessage());
+
+        return ApiResponseGenerator.fail(BAD_REQUEST.getCode(), exception.getBindingResult().getAllErrors().get(0).getDefaultMessage());
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler({
+            ConstraintViolationException.class,
+    })
+    protected ApiResponse<Void> handle(final ConstraintViolationException exception) {
+        log.info("[ConstraintViolationException] {}", exception.getMessage());
+
+        return ApiResponseGenerator.fail(BAD_REQUEST.getCode(), exception.getMessage());
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler({
+            InvalidDataAccessApiUsageException.class
+    })
+    protected ApiResponse<Void> handle(final InvalidDataAccessApiUsageException exception) {
+        log.info("[InvalidDataAccessApiUsageException] {}", exception.getMessage());
+
+        return ApiResponseGenerator.fail(BAD_REQUEST.getCode(), exception.getMessage());
     }
 }

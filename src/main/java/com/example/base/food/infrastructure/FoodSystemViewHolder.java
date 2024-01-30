@@ -1,6 +1,6 @@
 package com.example.base.food.infrastructure;
 
-import com.example.base.food.infrastructure.utils.FoodViewUtils;
+import com.example.base.food.service.utils.FoodViewUtils;
 import com.example.base.food.service.port.FoodViewHolder;
 import com.github.benmanes.caffeine.cache.Cache;
 import lombok.RequiredArgsConstructor;
