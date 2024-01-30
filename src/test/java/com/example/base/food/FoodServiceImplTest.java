@@ -33,7 +33,7 @@ class FoodServiceImplTest {
         fakeFoodRepository = new FakeFoodRepository();
         TestClockHolder testClockHolder = new TestClockHolder(10000L);
         TestPasswordHolder testPasswordHolder = new TestPasswordHolder();
-        TestFoodViewHolder testFoodViewHolder = new TestFoodViewHolder();
+        TestFoodViewHolder testFoodViewHolder = new TestFoodViewHolder(fakeFoodRepository);
         foodServiceImpl = new FoodServiceImpl(fakeFoodRepository, testClockHolder, testPasswordHolder, testFoodViewHolder);
 
         Food food1 = new Food();
@@ -93,7 +93,7 @@ class FoodServiceImplTest {
         assertThat(foodInfoResponse.views()).isZero();
         assertThat(foodInfoResponse.likes()).isZero();
         assertThat(foodInfoResponse.dislikes()).isZero();
-        assertThat(foodInfoResponse.createdAt()).isEqualTo("2024-01-23 00:00:00");
+        assertThat(foodInfoResponse.createdAt()).isEqualTo("2024-01-23 00:00");
         assertThat(foodInfoResponse.id()).isPositive();
     }
 
@@ -141,10 +141,10 @@ class FoodServiceImplTest {
         assertThat(foodInfoResponse.daysBeforeTest()).isEqualTo(3);
         assertThat(foodInfoResponse.mainIngredient()).isEqualTo(mainIngredient);
         assertThat(foodInfoResponse.status()).isEqualTo(ActiveStatus.ACTIVE);
-        assertThat(foodInfoResponse.views()).isZero();
+        assertThat(foodInfoResponse.views()).isEqualTo(1);
         assertThat(foodInfoResponse.likes()).isZero();
         assertThat(foodInfoResponse.dislikes()).isZero();
-        assertThat(foodInfoResponse.createdAt()).isEqualTo("2024-01-23 00:00:00");
+        assertThat(foodInfoResponse.createdAt()).isEqualTo("2024-01-23 00:00");
         assertThat(foodInfoResponse.id()).isEqualTo(1L);
     }
 
