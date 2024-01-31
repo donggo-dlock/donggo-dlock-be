@@ -54,6 +54,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public SliceResponse<CommentResponse> get(ReferenceType referenceType, Long referenceId, PageCreate pageCreate) {
+//        return commentRepository.get(referenceType, referenceId, pageCreate);
         return null;
     }
 
@@ -64,6 +65,8 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public void delete(Long id, ReportableDelete reportableDelete) {
-        //TODO: 댓글 삭제
+        Comment comment = commentRepository.get(id);
+        passwordHolder.match(reportableDelete.password(), comment.getPassword());
+        commentRepository.delete(comment);
     }
 }

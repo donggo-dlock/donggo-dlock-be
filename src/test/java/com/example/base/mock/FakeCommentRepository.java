@@ -42,4 +42,9 @@ public class FakeCommentRepository implements CommentRepository {
                 .findAny()
                 .orElseThrow(() -> new ResourceNotFoundException("Comment", id));
     }
+
+    @Override
+    public void delete(Comment comment) {
+        data.removeIf(item -> item.getId().equals(comment.getId()));
+    }
 }

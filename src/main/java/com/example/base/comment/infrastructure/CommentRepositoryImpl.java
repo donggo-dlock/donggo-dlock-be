@@ -22,4 +22,11 @@ public class CommentRepositoryImpl extends BaseRepository<CommentEntity, Long> i
     public Comment get(Long id) {
         return null;
     }
+
+    @Override
+    public void delete(Comment comment) {
+        delete(CommentEntity.from(comment));
+    }
+
+
 }

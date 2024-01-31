@@ -33,6 +33,9 @@ class CommentServiceImplTest {
         Food food1 = generateFood();
         testContainer.foodRepository.save(food1);
 
+        for (int i = 0; i < 5; i++) {
+            testContainer.commentRepository.save(generateComment(food1, i));
+        }
     }
 
     private Food generateFood() {
@@ -52,6 +55,19 @@ class CommentServiceImplTest {
         return food1;
     }
 
+    private Comment generateComment(Commentable commentable, int idx){
+        Comment comment = new Comment();
+        comment.setName("홍길동");
+        comment.setPassword("1234");
+        comment.setContent("댓글 내용");
+        comment.setReferenceType(ReferenceType.FOOD);
+        comment.setReference(commentable);
+        comment.setCreatedAt(10000L);
+        comment.setUserInformation("127.0.0.1:2024-01-30");
+        comment.setStatus(ActiveStatus.ACTIVE);
+        return comment;
+    }
+
     @Test
     void 댓글을_정상적으로_생성할_수_있다() {
         // given
@@ -68,7 +84,7 @@ class CommentServiceImplTest {
         commentService.create(request, userInformation);
 
         // then
-        Comment comment = commentService.get(1L);
+        Comment comment = commentService.get(6L);
         Commentable commentable = comment.getReference();
         assertThat(comment.getName()).isEqualTo("홍길동");
         assertThat(comment.getPassword()).isEqualTo("1234");
