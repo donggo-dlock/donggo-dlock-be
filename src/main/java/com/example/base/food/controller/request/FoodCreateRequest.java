@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import lombok.Builder;
 import org.hibernate.validator.constraints.Length;
 
@@ -16,6 +17,7 @@ public record FoodCreateRequest(
 
     @Schema(description = "비밀번호", example = "1234")
     @Length(min = 4, max = 4, message = "비밀번호는 4자로 입력해주세요.")
+    @Pattern(regexp = "^\\d{4}$", message = "4자리의 숫자만 입력 가능합니다.")
     String password,
 
     @Schema(description = "음식 설명", example = "맛있는 피자")

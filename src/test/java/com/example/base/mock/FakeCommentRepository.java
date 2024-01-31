@@ -2,7 +2,9 @@ package com.example.base.mock;
 
 import com.example.base.comment.domain.Comment;
 import com.example.base.comment.service.port.CommentRepository;
+import com.example.base.commentable.domain.Commentable;
 import com.example.base.common.exception.ResourceNotFoundException;
+import com.example.base.web.dto.PageCreate;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
@@ -41,5 +43,19 @@ public class FakeCommentRepository implements CommentRepository {
                 .filter(item -> item.getId().equals(id))
                 .findAny()
                 .orElseThrow(() -> new ResourceNotFoundException("Comment", id));
+    }
+
+    @Override
+    public void delete(Comment comment) {
+        data.removeIf(item -> item.getId().equals(comment.getId()));
+    }
+
+    @Override
+    public List<Comment> getByReference(Long lastId, Commentable reference, int size) {
+        return data.stream()
+                .filter(item -> item.getReference().equals(reference))
+                .filter(item -> item.getId() > lastId)
+                .limit(size+1)
+                .toList();
     }
 }

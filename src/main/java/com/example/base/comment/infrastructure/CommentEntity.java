@@ -28,7 +28,7 @@ public class CommentEntity {
     @Column(name = "userInformation", columnDefinition = "varchar(50)")
     private String userInformation;
 
-    @Column(name = "password", columnDefinition = "varchar(4)")
+    @Column(name = "password", columnDefinition = "varchar(255)")
     private String password;
 
     @Column(name = "content", columnDefinition = "varchar(255)")

@@ -11,21 +11,16 @@ import java.util.List;
 @NoArgsConstructor
 public class SliceResponse<T> {
     private List<T> content = new ArrayList<>();
-    private PageCreate pageCreate;
+    private int size;
     private boolean hasNext;
-    private SliceResponse(List<T> content, PageCreate pageCreate, boolean hasNext) {
+    private SliceResponse(List<T> content, int size, boolean hasNext) {
         this.content.addAll(content);
-        this.pageCreate = pageCreate;
+        this.size = size;
         this.hasNext = hasNext;
     }
 
-    public static <T> SliceResponse<T> of(List<T> content, PageCreate pageCreate, boolean hasNext) {
-        return new SliceResponse<>(content, pageCreate, hasNext);
-    }
-
-    @JsonProperty("hasPrevious")
-    public boolean hasPrevious(){
-        return this.pageCreate.getPage() > 0;
+    public static <T> SliceResponse<T> of(List<T> content, int size, boolean hasNext) {
+        return new SliceResponse<>(content, size, hasNext);
     }
 
     @JsonProperty("hasContent")
