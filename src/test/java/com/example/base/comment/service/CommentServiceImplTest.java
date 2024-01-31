@@ -5,6 +5,7 @@ import com.example.base.comment.controller.request.CommentCreateRequest;
 import com.example.base.comment.controller.response.CommentResponse;
 import com.example.base.comment.domain.Comment;
 import com.example.base.comment.domain.ReferenceType;
+import com.example.base.comment.domain.dto.CommentSearch;
 import com.example.base.commentable.domain.Commentable;
 import com.example.base.common.exception.PasswordNotMatchException;
 import com.example.base.common.exception.ResourceNotFoundException;
@@ -99,16 +100,17 @@ class CommentServiceImplTest {
     @Test
     void 댓글을_스크롤해서_가져올_수_있다() {
         //given
+        Long lastId = 0L;
         ReferenceType referenceType = ReferenceType.FOOD;
         Long referenceId = 1L;
-        Long lastId = 0L;
+        CommentSearch commentSearch = new CommentSearch(lastId, referenceType, referenceId);
         PageCreate pageCreate = PageCreate.builder()
                 .page(0)
                 .size(10)
                 .build();
 
         //when
-        SliceResponse<CommentResponse> sliceResponse = commentService.getList(lastId,referenceType, referenceId, pageCreate);
+        SliceResponse<CommentResponse> sliceResponse = commentService.getList(commentSearch, pageCreate);
 
         //then
         assertThat(sliceResponse.getContent()).hasSize(5);
