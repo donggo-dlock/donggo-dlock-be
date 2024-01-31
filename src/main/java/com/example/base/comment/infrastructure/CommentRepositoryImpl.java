@@ -6,7 +6,6 @@ import com.example.base.commentable.domain.Commentable;
 import com.example.base.common.infrastructure.repository.BaseRepository;
 import com.example.base.food.domain.Food;
 import com.example.base.review.domain.Review;
-import com.example.base.web.dto.PageCreate;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.stereotype.Repository;
@@ -28,7 +27,10 @@ public class CommentRepositoryImpl extends BaseRepository<CommentEntity, Long> i
 
     @Override
     public Comment get(Long id) {
-        return null;
+        return selectFrom(qComment)
+                .where(qComment.id.eq(id))
+                .fetchOne()
+                .toModel();
     }
 
     @Override
@@ -37,11 +39,11 @@ public class CommentRepositoryImpl extends BaseRepository<CommentEntity, Long> i
     }
 
     @Override
-    public List<Comment> getByReference(Long lastId, Commentable reference, PageCreate pageCreate) {
+    public List<Comment> getByReference(Long lastId, Commentable reference, int size) {
         return selectFrom(qComment)
                 .where(eqReference(reference)
                         .and(qComment.id.gt(lastId)))
-                .limit(pageCreate.getSize()+1L)
+                .limit(size+1L)
                 .fetch()
                 .stream().map(CommentEntity::toModel).toList();
     }
