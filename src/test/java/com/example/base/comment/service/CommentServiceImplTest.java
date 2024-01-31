@@ -103,18 +103,15 @@ class CommentServiceImplTest {
         Long lastId = 0L;
         ReferenceType referenceType = ReferenceType.FOOD;
         Long referenceId = 1L;
-        CommentSearch commentSearch = new CommentSearch(lastId, referenceType, referenceId);
-        PageCreate pageCreate = PageCreate.builder()
-                .page(0)
-                .size(10)
-                .build();
+        int size = 10;
+        CommentSearch commentSearch = new CommentSearch(lastId, referenceType, referenceId, size);
 
         //when
-        SliceResponse<CommentResponse> sliceResponse = commentService.getList(commentSearch, pageCreate);
+        SliceResponse<CommentResponse> sliceResponse = commentService.getList(commentSearch);
 
         //then
         assertThat(sliceResponse.getContent()).hasSize(5);
-        assertThat(sliceResponse.hasPrevious()).isFalse();
+        assertThat(sliceResponse.hasContent()).isTrue();
         assertThat(sliceResponse.isHasNext()).isFalse();
     }
 

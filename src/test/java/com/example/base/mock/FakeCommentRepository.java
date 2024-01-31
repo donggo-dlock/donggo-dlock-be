@@ -51,11 +51,11 @@ public class FakeCommentRepository implements CommentRepository {
     }
 
     @Override
-    public List<Comment> getByReference(Long lastId, Commentable reference, PageCreate pageCreate) {
+    public List<Comment> getByReference(Long lastId, Commentable reference, int size) {
         return data.stream()
                 .filter(item -> item.getReference().equals(reference))
                 .filter(item -> item.getId() > lastId)
-                .limit(pageCreate.getSize()+1)
+                .limit(size+1)
                 .toList();
     }
 }
