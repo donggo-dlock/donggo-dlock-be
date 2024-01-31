@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import java.nio.file.AccessDeniedException;
 
@@ -58,6 +59,12 @@ public class GlobalRestControllerExceptionHandler {
         log.error("[InternalServerError][ConversionFailed] {}", exception.getMessage(), exception);
 
         return ApiResponseGenerator.fail(INTERNAL_SERVER_ERROR.getCode(), INTERNAL_SERVER_ERROR.getDescription());
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(NoResourceFoundException.class)
+    protected ApiResponse<Void> handle() {
+        return ApiResponseGenerator.fail(INVALID_URL.getCode(), INVALID_URL.getDescription());
     }
 
     @ResponseStatus(HttpStatus.FORBIDDEN)
