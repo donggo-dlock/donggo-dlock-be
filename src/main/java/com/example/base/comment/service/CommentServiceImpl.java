@@ -14,7 +14,6 @@ import com.example.base.common.service.port.PasswordHolder;
 import com.example.base.food.controller.port.FoodService;
 import com.example.base.reportable.domain.dto.ReportableDelete;
 import com.example.base.review.controller.port.ReviewService;
-import com.example.base.web.dto.PageCreate;
 import com.example.base.web.dto.SliceResponse;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
@@ -44,18 +43,19 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public SliceResponse<CommentResponse> getList(CommentSearch commentSearch, PageCreate pageCreate) {
+    public SliceResponse<CommentResponse> getList(CommentSearch commentSearch) {
         Commentable commentable = getCommentable(commentSearch.referenceType(), commentSearch.referenceId());
-        List<CommentResponse> commentResponses = commentRepository.getByReference(commentSearch.lastId(), commentable, pageCreate)
+        List<CommentResponse> commentResponses = commentRepository.getByReference(commentSearch.lastId(), commentable, commentSearch.size())
                 .stream()
                 .map(comment -> CommentResponse.from(comment, clockHolder))
                 .toList();
+
         boolean hasNext = false;
-        if (commentResponses.size() > pageCreate.getSize()) {
+        if (commentResponses.size() > commentSearch.size()) {
             hasNext = true;
-            commentResponses.remove(commentResponses.size() - 1);
+            commentResponses = commentResponses.subList(0, commentResponses.size() - 1);
         }
-        return SliceResponse.of(commentResponses, pageCreate, hasNext);
+        return SliceResponse.of(commentResponses, commentSearch.size(), hasNext);
     }
 
     private Commentable getCommentable(ReferenceType referenceType, Long referenceId) {
