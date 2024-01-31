@@ -10,7 +10,7 @@ import com.example.base.web.dto.SliceResponse;
 
 public interface CommentService {
     public void create(CommentCreateRequest request, String userInformation);
-    public SliceResponse<CommentResponse> get(ReferenceType referenceType, Long referenceId, PageCreate pageCreate);
+    public SliceResponse<CommentResponse> getList(Long lastId, ReferenceType referenceType, Long referenceId, PageCreate pageCreate);
     public Comment get(Long id);
     public void delete(Long id, ReportableDelete reportableDelete);
 }

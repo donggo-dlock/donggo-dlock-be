@@ -21,6 +21,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Builder
 @RequiredArgsConstructor
@@ -36,16 +38,16 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public void create(CommentCreateRequest request, String userInformation) {
-        Commentable commentable = getCommentable(request);
+        Commentable commentable = getCommentable(request.referenceType(), request.referenceId());
         commentRepository.save(Comment.from(commentable, request, clockHolder, passwordHolder, userInformation));
     }
 
-    private Commentable getCommentable(CommentCreateRequest request) {
+    private Commentable getCommentable(ReferenceType referenceType, Long referenceId) {
         Commentable commentable;
-        if (ReferenceType.FOOD.equals(request.referenceType())) {
-            commentable = foodService.get(request.referenceId());
-        } else if (ReferenceType.REVIEW.equals(request.referenceType())) {
-            commentable = reviewService.get(request.referenceId());
+        if (ReferenceType.FOOD.equals(referenceType)) {
+            commentable = foodService.get(referenceId);
+        } else if (ReferenceType.REVIEW.equals(referenceType)) {
+            commentable = reviewService.get(referenceId);
         } else{
             throw new IllegalArgumentException("존재하지 않는 댓글 참조 타입입니다.");
         }
@@ -53,9 +55,17 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public SliceResponse<CommentResponse> get(ReferenceType referenceType, Long referenceId, PageCreate pageCreate) {
-//        return commentRepository.get(referenceType, referenceId, pageCreate);
-        return null;
+    public SliceResponse<CommentResponse> getList(Long lastId, ReferenceType referenceType, Long referenceId, PageCreate pageCreate) {
+        List<Comment> comments = commentRepository.getByReference(lastId, getCommentable(referenceType, referenceId), pageCreate);
+        boolean hasNext = false;
+        if (comments.size() > pageCreate.getSize()) {
+            hasNext = true;
+            comments.remove(comments.size() - 1);
+        }
+        List<CommentResponse> commentResponses = comments.stream()
+                .map(comment -> CommentResponse.from(comment, clockHolder))
+                .toList();
+        return SliceResponse.of(commentResponses, pageCreate, hasNext);
     }
 
     @Override
