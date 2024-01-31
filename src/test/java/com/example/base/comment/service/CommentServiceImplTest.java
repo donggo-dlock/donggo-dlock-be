@@ -101,14 +101,14 @@ class CommentServiceImplTest {
         //given
         ReferenceType referenceType = ReferenceType.FOOD;
         Long referenceId = 1L;
-
+        Long lastId = 0L;
         PageCreate pageCreate = PageCreate.builder()
-                .page(1)
+                .page(0)
                 .size(10)
                 .build();
 
         //when
-        SliceResponse<CommentResponse> sliceResponse = commentService.get(referenceType, referenceId, pageCreate);
+        SliceResponse<CommentResponse> sliceResponse = commentService.getList(lastId,referenceType, referenceId, pageCreate);
 
         //then
         assertThat(sliceResponse.getContent()).hasSize(5);
