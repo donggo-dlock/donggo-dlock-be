@@ -2,6 +2,7 @@ package com.example.base.review.controller.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import lombok.Builder;
 import org.hibernate.validator.constraints.Length;
 
@@ -14,6 +15,7 @@ public record ReviewCreateRequest(
 
     @Schema(description = "비밀번호", example = "1234")
     @Length(min = 4, max = 4, message = "비밀번호는 4자로 입력해주세요.")
+    @Pattern(regexp = "^\\d{4}$", message = "4자리의 숫자만 입력 가능합니다.")
     String password,
 
     @Schema(description = "후기", example = "후기입니다")
