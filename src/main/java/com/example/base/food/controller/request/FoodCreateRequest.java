@@ -3,7 +3,6 @@ package com.example.base.food.controller.request;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import lombok.Builder;
 import org.hibernate.validator.constraints.Length;
@@ -30,7 +29,6 @@ public record FoodCreateRequest(
     int daysBeforeTest,
 
     @Schema(description = "주재료", example = "#밀가루")
-    @NotBlank(message = "주재료는 필수로 입력해주세요.")
-    String mainIngredient
+    String[] mainIngredient
 ) {
 }

@@ -1,7 +1,6 @@
 package com.example.base.review.controller.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import lombok.Builder;
 import org.hibernate.validator.constraints.Length;
@@ -30,8 +29,7 @@ public record ReviewCreateRequest(
     @Schema(description = "수면 여부", allowableValues = {"true", "false"})
     boolean sleepFlag,
 
-    @Schema(description = "결과", example = "용종&종양")
-    @NotBlank(message = "결과는 필수로 입력해주세요.")
-    String result
+    @Schema(description = "결과", example = "[\"정상\", \"비정상\"]")
+    String[] result
 ) {
 }

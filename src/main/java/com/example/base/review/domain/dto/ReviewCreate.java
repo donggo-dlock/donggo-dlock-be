@@ -17,6 +17,7 @@ public record ReviewCreate(
     String result
 ) {
     public static ReviewCreate from(ReviewCreateRequest reviewCreateRequest, String userInformation, PasswordHolder passwordHolder) {
+        String result = String.join("&", reviewCreateRequest.result());
         return ReviewCreate.builder()
             .name(reviewCreateRequest.name())
             .userInformation(userInformation)
@@ -25,7 +26,7 @@ public record ReviewCreate(
             .age(reviewCreateRequest.age())
             .gender(reviewCreateRequest.gender())
             .sleepFlag(reviewCreateRequest.sleepFlag())
-            .result(reviewCreateRequest.result())
+            .result(result)
             .build();
     }
 }
