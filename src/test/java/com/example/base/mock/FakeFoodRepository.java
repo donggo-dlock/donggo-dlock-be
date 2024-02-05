@@ -63,10 +63,18 @@ public class FakeFoodRepository implements FoodRepository {
 
     @Override
     public PageResponse<Food> getPage(PageCreate pageCreate, FoodSearch foodSearch) {
+        int days;
+        try {
+            days = Integer.parseInt(foodSearch.daysBeforeTest());
+        } catch (NumberFormatException e) {
+            days = 0;
+        }
+
+        int finalDays = days;
         List<Food> filteredData = data.stream()
                 .filter(item -> item.getStatus().equals(ActiveStatus.ACTIVE))
                 .filter(item -> foodSearch.keyword().isEmpty()? true : item.getName().contains(foodSearch.keyword()))
-                .filter(item -> item.getDaysBeforeTest() == foodSearch.daysBeforeTest())
+                .filter(item -> finalDays == 0 ? true : item.getDaysBeforeTest() == finalDays)
                 .sorted(Comparator.<Food>comparingInt(item -> "views".equals(foodSearch.sortBy()) ? item.getViews() : 0)
                         .thenComparingInt(item -> "likes".equals(foodSearch.sortBy()) ? item.getLikes() : 0)
                         .thenComparingLong(Food::getId)

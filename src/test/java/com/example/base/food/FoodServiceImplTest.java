@@ -70,12 +70,13 @@ class FoodServiceImplTest {
     @Test
     void 음식이_정상적으로_등록된다(){
         //given
+        String[] mainIngredient = new String[]{"밀가루", "치즈", "토마토소스"};
         FoodCreateRequest foodCreateRequest = FoodCreateRequest.builder()
                 .name("피자3")
                 .content("피자는 맛있다")
                 .password("1234")
                 .daysBeforeTest(3)
-                .mainIngredient("밀가루&치즈&토마토소스")
+                .mainIngredient(mainIngredient)
                 .build();
         String userInformation = "127.0.0.1:2024-01-23";
 
@@ -169,7 +170,7 @@ class FoodServiceImplTest {
         FoodSearch foodSearch = FoodSearch.builder()
                 .keyword("")
                 .sortBy("VIEW")
-                .daysBeforeTest(1)
+                .daysBeforeTest("1")
                 .build();
 
         //when
