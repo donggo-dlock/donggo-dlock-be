@@ -79,7 +79,8 @@ public class FoodRepositoryImpl extends BaseRepository<FoodEntity, Long> impleme
 
 
     private BooleanExpression eqKeyword(final String keyword) {
-        return keyword == null ? null : qFood.name.contains(keyword);
+        if (keyword == null || keyword.isBlank()) return null;
+        return qFood.name.contains(keyword);
     }
 
     private BooleanExpression eqDaysBeforeTest(final String daysBeforeTest) {
