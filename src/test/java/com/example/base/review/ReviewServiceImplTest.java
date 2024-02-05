@@ -64,6 +64,7 @@ class ReviewServiceImplTest {
     @Test
     void 리뷰가_정상적으로_등록된다(){
         //given
+        String[] resultList = {"용종","기타"};
         ReviewCreateRequest reviewCreateRequest = ReviewCreateRequest.builder()
                 .name("찬영이의 내시경 후기")
                 .content("찬영이는 은근 겁이 많은 편이라, 무서웠다.")
@@ -71,7 +72,7 @@ class ReviewServiceImplTest {
                 .age(19)
                 .gender('M')
                 .sleepFlag(false)
-                .result("용종&기타")
+                .result(resultList)
                 .build();
         String userInformation = "127.0.0.1:2024-01-23";
 

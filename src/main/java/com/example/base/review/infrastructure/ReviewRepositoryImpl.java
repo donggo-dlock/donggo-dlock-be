@@ -81,11 +81,13 @@ public class ReviewRepositoryImpl extends BaseRepository<ReviewEntity, Long> imp
     }
 
     private BooleanExpression eqKeyword(final String keyword) {
-        return keyword == null ? null : qReview.name.contains(keyword);
+        if (Objects.isNull(keyword) || keyword.isBlank())
+            return null;
+        return qReview.name.contains(keyword);
     }
 
     private BooleanExpression eqAge(final String age) {
-        if (Objects.isNull(age))
+        if (Objects.isNull(age)|| age.isBlank())
             return null;
         int[] ageConditions = Arrays.stream(age.split("#")).mapToInt(Integer::parseInt).toArray();
         BooleanExpression ageCondition = qReview.age.eq(ageConditions[0]);
@@ -98,7 +100,7 @@ public class ReviewRepositoryImpl extends BaseRepository<ReviewEntity, Long> imp
     private BooleanExpression eqGender(final char gender) {
         if (gender == 'M' || gender == 'F')
             return qReview.gender.eq(gender);
-        if (gender == '\u0000')
+        if (gender == 'A')
             return null;
         throw new IllegalArgumentException("gender는 M 또는 F로 설정할 수 있습니다.");
     }
@@ -110,7 +112,7 @@ public class ReviewRepositoryImpl extends BaseRepository<ReviewEntity, Long> imp
     }
 
     private BooleanExpression eqResult(final String result) {
-        if (Objects.isNull(result))
+        if (Objects.isNull(result) || result.isBlank())
             return null;
         String[] resultConditions = result.split("#");
         BooleanExpression resultCondition = qReview.result.contains(resultConditions[0]);
