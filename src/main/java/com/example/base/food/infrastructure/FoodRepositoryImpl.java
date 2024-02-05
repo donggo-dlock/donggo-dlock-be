@@ -82,12 +82,15 @@ public class FoodRepositoryImpl extends BaseRepository<FoodEntity, Long> impleme
         return keyword == null ? null : qFood.name.contains(keyword);
     }
 
-    private BooleanExpression eqDaysBeforeTest(final int daysBeforeTest) {
-        if (daysBeforeTest > 0 && daysBeforeTest < 4)
-            return qFood.daysBeforeTest.eq(daysBeforeTest);
-        if (daysBeforeTest == 0)
+    private BooleanExpression eqDaysBeforeTest(final String daysBeforeTest) {
+        try{
+            int daysBeforeTestInt = Integer.parseInt(daysBeforeTest);
+            if (daysBeforeTestInt > 0 && daysBeforeTestInt < 4)
+                return qFood.daysBeforeTest.eq(daysBeforeTestInt);
+            throw new IllegalArgumentException("daysBeforeTest는 3일 이하로 설정할 수 있습니다.");
+        } catch (NumberFormatException e) {
             return null;
-        throw new IllegalArgumentException("daysBeforeTest는 3일 이하로 설정할 수 있습니다.");
+        }
     }
 
     private OrderSpecifier<?> getOrderSpecifierList(final String sortBy) {
