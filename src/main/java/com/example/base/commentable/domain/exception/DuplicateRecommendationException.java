@@ -8,7 +8,7 @@ import static com.example.base.common.domain.BusinessCode.CONFLICT;
 public class DuplicateRecommendationException extends BusinessException {
 
     public DuplicateRecommendationException() {
-        super("추천/비추천은 하루 한 번만 가능합니다.");
+        super("한 게시물에 대해 추천/비추천은 하루 한 번만 가능합니다.");
     }
 
     @Override
