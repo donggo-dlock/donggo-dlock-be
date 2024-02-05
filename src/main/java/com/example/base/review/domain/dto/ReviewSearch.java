@@ -10,8 +10,7 @@ public record ReviewSearch(
         @Schema(description = "검색어, 제목 기준", example = "수면")
         String keyword,
 
-        @Schema(description = "성별, null 값 가능", example = "M", nullable = true, allowableValues = {"M", "F"})
-        @Nullable
+        @Schema(description = "성별, null 값 가능", example = "M", nullable = true, allowableValues = {"M", "F", "A"})
         char gender,
 
         @Schema(description = "나이, 구분자는 #입니다.", example = "20")
