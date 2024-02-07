@@ -10,7 +10,6 @@ public class Report {
     private long id;
     private ReportStatus status;
     private String erInformation;
-    private String edInformation;
     private Long createdAt;
     private ReferenceType referenceType;
     private Reportable reference;

@@ -11,7 +11,7 @@ public enum BusinessCode {
 
     //Client
     BAD_REQUEST(HttpStatus.BAD_REQUEST, "C400", "잘못된 요청입니다. 요청내용을 확인하세요."),
-    INVALID_URL(HttpStatus.BAD_REQUEST, "C400*", "잘못된 URL입니다. URL을 확인하세요."),
+    INVALID_URL(HttpStatus.BAD_REQUEST, "C400", "잘못된 URL입니다. URL을 확인하세요."),
     NOT_FOUND(HttpStatus.NOT_FOUND, "C404", "요청내용을 찾을 수 없습니다. 요청내용을 확인하세요."),
     UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "C401", "인증되지 않았습니다. 인증을 확인하세요."),
     FORBIDDEN(HttpStatus.FORBIDDEN,"C403", "권한이 없습니다. 권한을 확인하세요."),
