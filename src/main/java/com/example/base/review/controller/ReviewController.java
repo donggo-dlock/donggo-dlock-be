@@ -1,7 +1,6 @@
 package com.example.base.review.controller;
 
 import com.example.base.reportable.domain.dto.ReportableDelete;
-import com.example.base.reportable.utils.IpAddressUtils;
 import com.example.base.review.controller.port.ReviewService;
 import com.example.base.review.controller.request.ReviewCreateRequest;
 import com.example.base.review.controller.response.ReviewInfoResponse;
@@ -24,11 +23,10 @@ import org.springframework.web.bind.annotation.*;
 public class ReviewController {
 
     private final ReviewService reviewService;
-    private final IpAddressUtils ipAddressUtils;
 
     @PostMapping
     public void create(@Valid @RequestBody ReviewCreateRequest reviewCreateRequest, @Parameter(hidden = true) @IpAddress String ipAddress) {
-        reviewService.create(reviewCreateRequest, ipAddressUtils.from(ipAddress));
+        reviewService.create(reviewCreateRequest, ipAddress);
     }
 
     @GetMapping("/{id}")
