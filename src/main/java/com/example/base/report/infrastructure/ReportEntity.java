@@ -28,9 +28,6 @@ public class ReportEntity {
     @Column(name = "erInformation", columnDefinition = "varchar(50)")
     private String erInformation;
 
-    @Column(name = "edInformation", columnDefinition = "varchar(50)")
-    private String edInformation;
-
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private ReportStatus status;
@@ -58,7 +55,6 @@ public class ReportEntity {
         ReportEntity reportEntity = new ReportEntity();
         reportEntity.setId(report.getId());
         reportEntity.setErInformation(report.getErInformation());
-        reportEntity.setEdInformation(report.getEdInformation());
         reportEntity.setStatus(report.getStatus());
         reportEntity.setCreatedAt(report.getCreatedAt());
         reportEntity.setReferenceType(report.getReferenceType());
@@ -96,7 +92,6 @@ public class ReportEntity {
         return Report.builder()
                 .id(id)
                 .erInformation(erInformation)
-                .edInformation(edInformation)
                 .status(status)
                 .createdAt(createdAt)
                 .referenceType(referenceType)
