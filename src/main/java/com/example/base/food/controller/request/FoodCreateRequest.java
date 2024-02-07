@@ -28,7 +28,7 @@ public record FoodCreateRequest(
     @Max(value = 3, message = "테스트까지 남은 일수는 3일 이하로 입력해주세요.")
     int daysBeforeTest,
 
-    @Schema(description = "주재료", example = "#밀가루")
+    @Schema(description = "주재료, 배열로 입력해주세요", example = "[\"치즈\", \"토마토\"]")
     String[] mainIngredient
 ) {
 }

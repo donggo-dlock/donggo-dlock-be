@@ -9,7 +9,6 @@ import com.example.base.food.controller.request.FoodCreateRequest;
 import com.example.base.food.controller.response.FoodInfoResponse;
 import com.example.base.food.controller.response.FoodResponse;
 import com.example.base.food.domain.Food;
-import com.example.base.food.domain.dto.FoodCreate;
 import com.example.base.reportable.domain.dto.ReportableDelete;
 import com.example.base.food.domain.dto.FoodSearch;
 import com.example.base.food.service.port.FoodRepository;
@@ -35,8 +34,8 @@ public class FoodServiceImpl implements FoodService {
     private final FoodViewHolder foodViewHolder;
 
     @Override
-    public void create(FoodCreateRequest foodCreateRequest, String userInformation) {
-        foodRepository.save(Food.from(FoodCreate.from(foodCreateRequest, userInformation), clockHolder, passwordHolder));
+    public void create(FoodCreateRequest foodCreateRequest, String ipAddress) {
+        foodRepository.save(Food.from(foodCreateRequest, ipAddress, clockHolder, passwordHolder));
     }
 
     @Override

@@ -4,9 +4,8 @@ import com.example.base.food.controller.port.FoodService;
 import com.example.base.food.controller.request.FoodCreateRequest;
 import com.example.base.food.controller.response.FoodInfoResponse;
 import com.example.base.food.controller.response.FoodResponse;
-import com.example.base.reportable.domain.dto.ReportableDelete;
 import com.example.base.food.domain.dto.FoodSearch;
-import com.example.base.reportable.utils.IpAddressUtils;
+import com.example.base.reportable.domain.dto.ReportableDelete;
 import com.example.base.web.annotation.IpAddress;
 import com.example.base.web.dto.PageCreate;
 import com.example.base.web.dto.PageResponse;
@@ -26,11 +25,10 @@ import org.springframework.web.bind.annotation.*;
 public class FoodController {
 
     private final FoodService foodService;
-    private final IpAddressUtils ipAddressUtils;
 
     @PostMapping
     public void create(@Valid @RequestBody FoodCreateRequest foodCreateRequest, @Parameter(hidden = true) @IpAddress String ipAddress) {
-        foodService.create(foodCreateRequest, ipAddressUtils.from(ipAddress));
+        foodService.create(foodCreateRequest, ipAddress);
     }
 
     @GetMapping("/{id}")

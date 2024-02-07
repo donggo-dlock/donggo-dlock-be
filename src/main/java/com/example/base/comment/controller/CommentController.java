@@ -5,7 +5,6 @@ import com.example.base.comment.controller.request.CommentCreateRequest;
 import com.example.base.comment.controller.response.CommentResponse;
 import com.example.base.comment.domain.dto.CommentSearch;
 import com.example.base.reportable.domain.dto.ReportableDelete;
-import com.example.base.reportable.utils.IpAddressUtils;
 import com.example.base.web.annotation.IpAddress;
 import com.example.base.web.dto.SliceResponse;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -22,11 +21,10 @@ import org.springframework.web.bind.annotation.*;
 public class CommentController {
 
     private final CommentService commentService;
-    private final IpAddressUtils ipAddressUtils;
 
     @PostMapping
     public void create(@Valid @RequestBody CommentCreateRequest request, @IpAddress @Parameter(hidden = true) String ipAddress) {
-        commentService.create(request, ipAddressUtils.from(ipAddress));
+        commentService.create(request, ipAddress);
     }
 
     @GetMapping

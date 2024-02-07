@@ -123,6 +123,9 @@ public class ReviewRepositoryImpl extends BaseRepository<ReviewEntity, Long> imp
     }
 
     private OrderSpecifier<?> getOrderSpecifierList(final String sortBy) {
+        if (sortBy.isBlank() || sortBy.isEmpty())
+            return qReview.id.desc();
+
         return switch (sortBy) {
             case "VIEW" -> qReview.views.desc();
             case "LIKE" -> qReview.likes.desc();

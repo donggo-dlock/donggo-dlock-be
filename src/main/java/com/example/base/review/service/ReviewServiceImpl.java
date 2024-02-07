@@ -9,7 +9,6 @@ import com.example.base.review.controller.request.ReviewCreateRequest;
 import com.example.base.review.controller.response.ReviewInfoResponse;
 import com.example.base.review.controller.response.ReviewResponse;
 import com.example.base.review.domain.Review;
-import com.example.base.review.domain.dto.ReviewCreate;
 import com.example.base.review.domain.dto.ReviewSearch;
 import com.example.base.review.service.port.ReviewRepository;
 import com.example.base.review.service.port.ReviewViewHolder;
@@ -35,7 +34,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public void create(ReviewCreateRequest reviewCreateRequest, String ipAddress) {
-        reviewRepository.save(Review.from(ReviewCreate.from(reviewCreateRequest, ipAddress, passwordHolder), clockHolder));
+        reviewRepository.save(Review.from(reviewCreateRequest, ipAddress, clockHolder, passwordHolder));
     }
 
     @Override
