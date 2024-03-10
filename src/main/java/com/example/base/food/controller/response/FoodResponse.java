@@ -9,7 +9,7 @@ public record FoodResponse(
         Long id,
         String name,
         int likes,
-        int dislikes,
+        int views,
         String createdAt
 ) {
     public static FoodResponse from(Food food, ClockHolder clockHolder) {
@@ -17,7 +17,7 @@ public record FoodResponse(
                 .id(food.getId())
                 .name(food.getName())
                 .likes(food.getLikes())
-                .dislikes(food.getDislikes())
+                .views(food.getViews())
                 .createdAt(clockHolder.dateTime(food.getCreatedAt()))
                 .build();
     }
